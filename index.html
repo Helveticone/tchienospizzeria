@@ -125,14 +125,63 @@
             border-radius: 20px 20px 0 0;
             padding: 25px;
         }
-        input, textarea {
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #1E3A5F;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
             width: 100%;
             padding: 12px;
-            margin: 8px 0;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 15px;
+            font-family: inherit;
         }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #C41E3A;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .radio-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .radio-option:hover {
+            border-color: #C41E3A;
+        }
+        .radio-option.selected {
+            border-color: #C41E3A;
+            background: rgba(196, 30, 58, 0.05);
+        }
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .datetime-row {
+            display: flex;
+            gap: 10px;
+        }
+        .datetime-row > div {
+            flex: 1;
+        }
+
         .btn-primary {
             width: 100%;
             background: #C41E3A;
@@ -145,6 +194,8 @@
             margin-top: 10px;
             cursor: pointer;
         }
+
+        .hidden { display: none; }
     </style>
 <base target="_blank">
 </head>
@@ -176,9 +227,9 @@
                 <p>Tomate, ail, câpres, origan</p>
                 <div class="price">16.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-0', -1)" disabled id="btn-min-pizza-0">-</button>
-                    <span id="qty-pizza-0">0</span>
-                    <button onclick="updateQty('pizza-0', 1)" id="btn-plus-pizza-0">+</button>
+                    <button onclick="updateQty('pizzas-0', -1)" disabled id="btn-min-pizzas-0">-</button>
+                    <span id="qty-pizzas-0">0</span>
+                    <button onclick="updateQty('pizzas-0', 1)" id="btn-plus-pizzas-0">+</button>
                 </div>
             </div>
 
@@ -187,9 +238,9 @@
                 <p>Tomate, mozzarella, aubergine, parmesan, basilic</p>
                 <div class="price">16.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-1', -1)" disabled id="btn-min-pizza-1">-</button>
-                    <span id="qty-pizza-1">0</span>
-                    <button onclick="updateQty('pizza-1', 1)" id="btn-plus-pizza-1">+</button>
+                    <button onclick="updateQty('pizzas-1', -1)" disabled id="btn-min-pizzas-1">-</button>
+                    <span id="qty-pizzas-1">0</span>
+                    <button onclick="updateQty('pizzas-1', 1)" id="btn-plus-pizzas-1">+</button>
                 </div>
             </div>
 
@@ -198,9 +249,9 @@
                 <p>Tomate, mozzarella, chorizo, poivrons, oignons</p>
                 <div class="price">17.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-2', -1)" disabled id="btn-min-pizza-2">-</button>
-                    <span id="qty-pizza-2">0</span>
-                    <button onclick="updateQty('pizza-2', 1)" id="btn-plus-pizza-2">+</button>
+                    <button onclick="updateQty('pizzas-2', -1)" disabled id="btn-min-pizzas-2">-</button>
+                    <span id="qty-pizzas-2">0</span>
+                    <button onclick="updateQty('pizzas-2', 1)" id="btn-plus-pizzas-2">+</button>
                 </div>
             </div>
 
@@ -209,9 +260,9 @@
                 <p>Tomate, mozzarella, pommes de terre, olives, persil</p>
                 <div class="price">17.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-3', -1)" disabled id="btn-min-pizza-3">-</button>
-                    <span id="qty-pizza-3">0</span>
-                    <button onclick="updateQty('pizza-3', 1)" id="btn-plus-pizza-3">+</button>
+                    <button onclick="updateQty('pizzas-3', -1)" disabled id="btn-min-pizzas-3">-</button>
+                    <span id="qty-pizzas-3">0</span>
+                    <button onclick="updateQty('pizzas-3', 1)" id="btn-plus-pizzas-3">+</button>
                 </div>
             </div>
 
@@ -220,9 +271,9 @@
                 <p>Tomate, mozzarella, brocoli, jambon à l'os, tomates séchées</p>
                 <div class="price">18.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-4', -1)" disabled id="btn-min-pizza-4">-</button>
-                    <span id="qty-pizza-4">0</span>
-                    <button onclick="updateQty('pizza-4', 1)" id="btn-plus-pizza-4">+</button>
+                    <button onclick="updateQty('pizzas-4', -1)" disabled id="btn-min-pizzas-4">-</button>
+                    <span id="qty-pizzas-4">0</span>
+                    <button onclick="updateQty('pizzas-4', 1)" id="btn-plus-pizzas-4">+</button>
                 </div>
             </div>
 
@@ -231,9 +282,9 @@
                 <p>Tomate, mozzarella, thon, oignons, câpres, anchois</p>
                 <div class="price">18.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-5', -1)" disabled id="btn-min-pizza-5">-</button>
-                    <span id="qty-pizza-5">0</span>
-                    <button onclick="updateQty('pizza-5', 1)" id="btn-plus-pizza-5">+</button>
+                    <button onclick="updateQty('pizzas-5', -1)" disabled id="btn-min-pizzas-5">-</button>
+                    <span id="qty-pizzas-5">0</span>
+                    <button onclick="updateQty('pizzas-5', 1)" id="btn-plus-pizzas-5">+</button>
                 </div>
             </div>
 
@@ -242,9 +293,9 @@
                 <p>Tomate, mozzarella, légumes de saison</p>
                 <div class="price">19.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-6', -1)" disabled id="btn-min-pizza-6">-</button>
-                    <span id="qty-pizza-6">0</span>
-                    <button onclick="updateQty('pizza-6', 1)" id="btn-plus-pizza-6">+</button>
+                    <button onclick="updateQty('pizzas-6', -1)" disabled id="btn-min-pizzas-6">-</button>
+                    <span id="qty-pizzas-6">0</span>
+                    <button onclick="updateQty('pizzas-6', 1)" id="btn-plus-pizzas-6">+</button>
                 </div>
             </div>
 
@@ -253,9 +304,9 @@
                 <p>Tomate, mozzarella, champignons, saucisse d'Ajoie</p>
                 <div class="price">19.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-7', -1)" disabled id="btn-min-pizza-7">-</button>
-                    <span id="qty-pizza-7">0</span>
-                    <button onclick="updateQty('pizza-7', 1)" id="btn-plus-pizza-7">+</button>
+                    <button onclick="updateQty('pizzas-7', -1)" disabled id="btn-min-pizzas-7">-</button>
+                    <span id="qty-pizzas-7">0</span>
+                    <button onclick="updateQty('pizzas-7', 1)" id="btn-plus-pizzas-7">+</button>
                 </div>
             </div>
 
@@ -264,9 +315,9 @@
                 <p>Tomate, mozzarella, lard du Noirmont, poivrons, miel</p>
                 <div class="price">20.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-8', -1)" disabled id="btn-min-pizza-8">-</button>
-                    <span id="qty-pizza-8">0</span>
-                    <button onclick="updateQty('pizza-8', 1)" id="btn-plus-pizza-8">+</button>
+                    <button onclick="updateQty('pizzas-8', -1)" disabled id="btn-min-pizzas-8">-</button>
+                    <span id="qty-pizzas-8">0</span>
+                    <button onclick="updateQty('pizzas-8', 1)" id="btn-plus-pizzas-8">+</button>
                 </div>
             </div>
 
@@ -275,9 +326,9 @@
                 <p>Tomate, mozzarella, crevettes, salade, sauce</p>
                 <div class="price">21.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-9', -1)" disabled id="btn-min-pizza-9">-</button>
-                    <span id="qty-pizza-9">0</span>
-                    <button onclick="updateQty('pizza-9', 1)" id="btn-plus-pizza-9">+</button>
+                    <button onclick="updateQty('pizzas-9', -1)" disabled id="btn-min-pizzas-9">-</button>
+                    <span id="qty-pizzas-9">0</span>
+                    <button onclick="updateQty('pizzas-9', 1)" id="btn-plus-pizzas-9">+</button>
                 </div>
             </div>
 
@@ -286,9 +337,9 @@
                 <p>Tomate, mozzarella, hachis de bœuf, oignons, épices</p>
                 <div class="price">21.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-10', -1)" disabled id="btn-min-pizza-10">-</button>
-                    <span id="qty-pizza-10">0</span>
-                    <button onclick="updateQty('pizza-10', 1)" id="btn-plus-pizza-10">+</button>
+                    <button onclick="updateQty('pizzas-10', -1)" disabled id="btn-min-pizzas-10">-</button>
+                    <span id="qty-pizzas-10">0</span>
+                    <button onclick="updateQty('pizzas-10', 1)" id="btn-plus-pizzas-10">+</button>
                 </div>
             </div>
 
@@ -297,9 +348,9 @@
                 <p>Tomate, mozzarella, chevrette de Movelier, champignons</p>
                 <div class="price">22.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-11', -1)" disabled id="btn-min-pizza-11">-</button>
-                    <span id="qty-pizza-11">0</span>
-                    <button onclick="updateQty('pizza-11', 1)" id="btn-plus-pizza-11">+</button>
+                    <button onclick="updateQty('pizzas-11', -1)" disabled id="btn-min-pizzas-11">-</button>
+                    <span id="qty-pizzas-11">0</span>
+                    <button onclick="updateQty('pizzas-11', 1)" id="btn-plus-pizzas-11">+</button>
                 </div>
             </div>
 
@@ -308,9 +359,9 @@
                 <p>Tomate, mozzarella, lard, pavé du Père Joseph</p>
                 <div class="price">22.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-12', -1)" disabled id="btn-min-pizza-12">-</button>
-                    <span id="qty-pizza-12">0</span>
-                    <button onclick="updateQty('pizza-12', 1)" id="btn-plus-pizza-12">+</button>
+                    <button onclick="updateQty('pizzas-12', -1)" disabled id="btn-min-pizzas-12">-</button>
+                    <span id="qty-pizzas-12">0</span>
+                    <button onclick="updateQty('pizzas-12', 1)" id="btn-plus-pizzas-12">+</button>
                 </div>
             </div>
 
@@ -319,9 +370,9 @@
                 <p>Tomate, mortadelle, pesto, pistaches, burrata</p>
                 <div class="price">23.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-13', -1)" disabled id="btn-min-pizza-13">-</button>
-                    <span id="qty-pizza-13">0</span>
-                    <button onclick="updateQty('pizza-13', 1)" id="btn-plus-pizza-13">+</button>
+                    <button onclick="updateQty('pizzas-13', -1)" disabled id="btn-min-pizzas-13">-</button>
+                    <span id="qty-pizzas-13">0</span>
+                    <button onclick="updateQty('pizzas-13', 1)" id="btn-plus-pizzas-13">+</button>
                 </div>
             </div>
 
@@ -330,9 +381,9 @@
                 <p>Tomate, mozzarella, crème fraîche, jambon cru, roquette</p>
                 <div class="price">23.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-14', -1)" disabled id="btn-min-pizza-14">-</button>
-                    <span id="qty-pizza-14">0</span>
-                    <button onclick="updateQty('pizza-14', 1)" id="btn-plus-pizza-14">+</button>
+                    <button onclick="updateQty('pizzas-14', -1)" disabled id="btn-min-pizzas-14">-</button>
+                    <span id="qty-pizzas-14">0</span>
+                    <button onclick="updateQty('pizzas-14', 1)" id="btn-plus-pizzas-14">+</button>
                 </div>
             </div>
 
@@ -341,20 +392,20 @@
                 <p>Tomate, mozzarella, tête de moine, Rêve du Jura, gruyère</p>
                 <div class="price">23.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pizza-15', -1)" disabled id="btn-min-pizza-15">-</button>
-                    <span id="qty-pizza-15">0</span>
-                    <button onclick="updateQty('pizza-15', 1)" id="btn-plus-pizza-15">+</button>
+                    <button onclick="updateQty('pizzas-15', -1)" disabled id="btn-min-pizzas-15">-</button>
+                    <span id="qty-pizzas-15">0</span>
+                    <button onclick="updateQty('pizzas-15', 1)" id="btn-plus-pizzas-15">+</button>
                 </div>
             </div>
-</div><div id="pates" class="category"><h2>🍝 Pâtes</h2>
+</div><div id="pates" class="category"><h2>🍝 Pates</h2>
             <div class="item">
                 <h3>Pâtes Ail et pesto</h3>
                 <p>Pâtes fraîches sauce ail et pesto maison</p>
                 <div class="price">15.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pate-0', -1)" disabled id="btn-min-pate-0">-</button>
-                    <span id="qty-pate-0">0</span>
-                    <button onclick="updateQty('pate-0', 1)" id="btn-plus-pate-0">+</button>
+                    <button onclick="updateQty('pates-0', -1)" disabled id="btn-min-pates-0">-</button>
+                    <span id="qty-pates-0">0</span>
+                    <button onclick="updateQty('pates-0', 1)" id="btn-plus-pates-0">+</button>
                 </div>
             </div>
 
@@ -363,9 +414,9 @@
                 <p>Pâtes fraîches sauce tomate basilic</p>
                 <div class="price">13.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pate-1', -1)" disabled id="btn-min-pate-1">-</button>
-                    <span id="qty-pate-1">0</span>
-                    <button onclick="updateQty('pate-1', 1)" id="btn-plus-pate-1">+</button>
+                    <button onclick="updateQty('pates-1', -1)" disabled id="btn-min-pates-1">-</button>
+                    <span id="qty-pates-1">0</span>
+                    <button onclick="updateQty('pates-1', 1)" id="btn-plus-pates-1">+</button>
                 </div>
             </div>
 
@@ -374,9 +425,9 @@
                 <p>Pâtes fraîches sauce tomate pimentée</p>
                 <div class="price">15.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pate-2', -1)" disabled id="btn-min-pate-2">-</button>
-                    <span id="qty-pate-2">0</span>
-                    <button onclick="updateQty('pate-2', 1)" id="btn-plus-pate-2">+</button>
+                    <button onclick="updateQty('pates-2', -1)" disabled id="btn-min-pates-2">-</button>
+                    <span id="qty-pates-2">0</span>
+                    <button onclick="updateQty('pates-2', 1)" id="btn-plus-pates-2">+</button>
                 </div>
             </div>
 
@@ -385,9 +436,9 @@
                 <p>Pâtes fraîches, lardons, œuf, parmesan</p>
                 <div class="price">16.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pate-3', -1)" disabled id="btn-min-pate-3">-</button>
-                    <span id="qty-pate-3">0</span>
-                    <button onclick="updateQty('pate-3', 1)" id="btn-plus-pate-3">+</button>
+                    <button onclick="updateQty('pates-3', -1)" disabled id="btn-min-pates-3">-</button>
+                    <span id="qty-pates-3">0</span>
+                    <button onclick="updateQty('pates-3', 1)" id="btn-plus-pates-3">+</button>
                 </div>
             </div>
 
@@ -396,9 +447,9 @@
                 <p>Pâtes fraîches sauce bolognaise maison</p>
                 <div class="price">16.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pate-4', -1)" disabled id="btn-min-pate-4">-</button>
-                    <span id="qty-pate-4">0</span>
-                    <button onclick="updateQty('pate-4', 1)" id="btn-plus-pate-4">+</button>
+                    <button onclick="updateQty('pates-4', -1)" disabled id="btn-min-pates-4">-</button>
+                    <span id="qty-pates-4">0</span>
+                    <button onclick="updateQty('pates-4', 1)" id="btn-plus-pates-4">+</button>
                 </div>
             </div>
 
@@ -407,9 +458,9 @@
                 <p>Lasagnes maison au bœuf et béchamel</p>
                 <div class="price">17.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pate-5', -1)" disabled id="btn-min-pate-5">-</button>
-                    <span id="qty-pate-5">0</span>
-                    <button onclick="updateQty('pate-5', 1)" id="btn-plus-pate-5">+</button>
+                    <button onclick="updateQty('pates-5', -1)" disabled id="btn-min-pates-5">-</button>
+                    <span id="qty-pates-5">0</span>
+                    <button onclick="updateQty('pates-5', 1)" id="btn-plus-pates-5">+</button>
                 </div>
             </div>
 
@@ -418,9 +469,9 @@
                 <p>Lasagnes maison aux légumes de saison</p>
                 <div class="price">16.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('pate-6', -1)" disabled id="btn-min-pate-6">-</button>
-                    <span id="qty-pate-6">0</span>
-                    <button onclick="updateQty('pate-6', 1)" id="btn-plus-pate-6">+</button>
+                    <button onclick="updateQty('pates-6', -1)" disabled id="btn-min-pates-6">-</button>
+                    <span id="qty-pates-6">0</span>
+                    <button onclick="updateQty('pates-6', 1)" id="btn-plus-pates-6">+</button>
                 </div>
             </div>
 </div><div id="salades" class="category"><h2>🥗 Salades</h2>
@@ -429,9 +480,9 @@
                 <p>Mélange de salades vertes, vinaigrette maison</p>
                 <div class="price">6.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-0', -1)" disabled id="btn-min-salade-0">-</button>
-                    <span id="qty-salade-0">0</span>
-                    <button onclick="updateQty('salade-0', 1)" id="btn-plus-salade-0">+</button>
+                    <button onclick="updateQty('salades-0', -1)" disabled id="btn-min-salades-0">-</button>
+                    <span id="qty-salades-0">0</span>
+                    <button onclick="updateQty('salades-0', 1)" id="btn-plus-salades-0">+</button>
                 </div>
             </div>
 
@@ -440,9 +491,9 @@
                 <p>Salade composée avec légumes frais</p>
                 <div class="price">8.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-1', -1)" disabled id="btn-min-salade-1">-</button>
-                    <span id="qty-salade-1">0</span>
-                    <button onclick="updateQty('salade-1', 1)" id="btn-plus-salade-1">+</button>
+                    <button onclick="updateQty('salades-1', -1)" disabled id="btn-min-salades-1">-</button>
+                    <span id="qty-salades-1">0</span>
+                    <button onclick="updateQty('salades-1', 1)" id="btn-plus-salades-1">+</button>
                 </div>
             </div>
 
@@ -451,9 +502,9 @@
                 <p>Grande salade composée généreuse</p>
                 <div class="price">16.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-2', -1)" disabled id="btn-min-salade-2">-</button>
-                    <span id="qty-salade-2">0</span>
-                    <button onclick="updateQty('salade-2', 1)" id="btn-plus-salade-2">+</button>
+                    <button onclick="updateQty('salades-2', -1)" disabled id="btn-min-salades-2">-</button>
+                    <span id="qty-salades-2">0</span>
+                    <button onclick="updateQty('salades-2', 1)" id="btn-plus-salades-2">+</button>
                 </div>
             </div>
 
@@ -462,9 +513,9 @@
                 <p>Tomates, mozzarella, basilic, huile d'olive</p>
                 <div class="price">10.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-3', -1)" disabled id="btn-min-salade-3">-</button>
-                    <span id="qty-salade-3">0</span>
-                    <button onclick="updateQty('salade-3', 1)" id="btn-plus-salade-3">+</button>
+                    <button onclick="updateQty('salades-3', -1)" disabled id="btn-min-salades-3">-</button>
+                    <span id="qty-salades-3">0</span>
+                    <button onclick="updateQty('salades-3', 1)" id="btn-plus-salades-3">+</button>
                 </div>
             </div>
 
@@ -473,9 +524,9 @@
                 <p>Grande assiette Caprese</p>
                 <div class="price">16.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-4', -1)" disabled id="btn-min-salade-4">-</button>
-                    <span id="qty-salade-4">0</span>
-                    <button onclick="updateQty('salade-4', 1)" id="btn-plus-salade-4">+</button>
+                    <button onclick="updateQty('salades-4', -1)" disabled id="btn-min-salades-4">-</button>
+                    <span id="qty-salades-4">0</span>
+                    <button onclick="updateQty('salades-4', 1)" id="btn-plus-salades-4">+</button>
                 </div>
             </div>
 
@@ -484,9 +535,9 @@
                 <p>Salade complète du chef avec garnitures</p>
                 <div class="price">18.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-5', -1)" disabled id="btn-min-salade-5">-</button>
-                    <span id="qty-salade-5">0</span>
-                    <button onclick="updateQty('salade-5', 1)" id="btn-plus-salade-5">+</button>
+                    <button onclick="updateQty('salades-5', -1)" disabled id="btn-min-salades-5">-</button>
+                    <span id="qty-salades-5">0</span>
+                    <button onclick="updateQty('salades-5', 1)" id="btn-plus-salades-5">+</button>
                 </div>
             </div>
 
@@ -495,9 +546,9 @@
                 <p>Salade avec chèvre chaud, miel, noix</p>
                 <div class="price">19.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-6', -1)" disabled id="btn-min-salade-6">-</button>
-                    <span id="qty-salade-6">0</span>
-                    <button onclick="updateQty('salade-6', 1)" id="btn-plus-salade-6">+</button>
+                    <button onclick="updateQty('salades-6', -1)" disabled id="btn-min-salades-6">-</button>
+                    <span id="qty-salades-6">0</span>
+                    <button onclick="updateQty('salades-6', 1)" id="btn-plus-salades-6">+</button>
                 </div>
             </div>
 
@@ -506,9 +557,9 @@
                 <p>Assiette de légumes de saison grillés</p>
                 <div class="price">8.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-7', -1)" disabled id="btn-min-salade-7">-</button>
-                    <span id="qty-salade-7">0</span>
-                    <button onclick="updateQty('salade-7', 1)" id="btn-plus-salade-7">+</button>
+                    <button onclick="updateQty('salades-7', -1)" disabled id="btn-min-salades-7">-</button>
+                    <span id="qty-salades-7">0</span>
+                    <button onclick="updateQty('salades-7', 1)" id="btn-plus-salades-7">+</button>
                 </div>
             </div>
 
@@ -517,20 +568,20 @@
                 <p>Grande assiette de légumes de saison</p>
                 <div class="price">14.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('salade-8', -1)" disabled id="btn-min-salade-8">-</button>
-                    <span id="qty-salade-8">0</span>
-                    <button onclick="updateQty('salade-8', 1)" id="btn-plus-salade-8">+</button>
+                    <button onclick="updateQty('salades-8', -1)" disabled id="btn-min-salades-8">-</button>
+                    <span id="qty-salades-8">0</span>
+                    <button onclick="updateQty('salades-8', 1)" id="btn-plus-salades-8">+</button>
                 </div>
             </div>
-</div><div id="autres" class="category"><h2>🍖 Grillades</h2>
+</div><div id="autres" class="category"><h2>🍖 Autres</h2>
             <div class="item">
                 <h3>Tranche panée de poulet</h3>
                 <p>Escalope de poulet panée avec garniture</p>
                 <div class="price">18.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('autre-0', -1)" disabled id="btn-min-autre-0">-</button>
-                    <span id="qty-autre-0">0</span>
-                    <button onclick="updateQty('autre-0', 1)" id="btn-plus-autre-0">+</button>
+                    <button onclick="updateQty('autres-0', -1)" disabled id="btn-min-autres-0">-</button>
+                    <span id="qty-autres-0">0</span>
+                    <button onclick="updateQty('autres-0', 1)" id="btn-plus-autres-0">+</button>
                 </div>
             </div>
 
@@ -539,9 +590,9 @@
                 <p>Tranches de roastbeef, sauce, garniture</p>
                 <div class="price">25.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('autre-1', -1)" disabled id="btn-min-autre-1">-</button>
-                    <span id="qty-autre-1">0</span>
-                    <button onclick="updateQty('autre-1', 1)" id="btn-plus-autre-1">+</button>
+                    <button onclick="updateQty('autres-1', -1)" disabled id="btn-min-autres-1">-</button>
+                    <span id="qty-autres-1">0</span>
+                    <button onclick="updateQty('autres-1', 1)" id="btn-plus-autres-1">+</button>
                 </div>
             </div>
 
@@ -550,20 +601,20 @@
                 <p>Tartare de bœuf préparé maison, frites</p>
                 <div class="price">25.00 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('autre-2', -1)" disabled id="btn-min-autre-2">-</button>
-                    <span id="qty-autre-2">0</span>
-                    <button onclick="updateQty('autre-2', 1)" id="btn-plus-autre-2">+</button>
+                    <button onclick="updateQty('autres-2', -1)" disabled id="btn-min-autres-2">-</button>
+                    <span id="qty-autres-2">0</span>
+                    <button onclick="updateQty('autres-2', 1)" id="btn-plus-autres-2">+</button>
                 </div>
             </div>
-</div><div id="enfants" class="category"><h2>👶 Bambinis</h2>
+</div><div id="enfants" class="category"><h2>👶 Enfants</h2>
             <div class="item">
                 <h3>Bambini - Poulet pané</h3>
                 <p>Tranche panée de poulet avec frites ou pâtes</p>
                 <div class="price">12.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('enfant-0', -1)" disabled id="btn-min-enfant-0">-</button>
-                    <span id="qty-enfant-0">0</span>
-                    <button onclick="updateQty('enfant-0', 1)" id="btn-plus-enfant-0">+</button>
+                    <button onclick="updateQty('enfants-0', -1)" disabled id="btn-min-enfants-0">-</button>
+                    <span id="qty-enfants-0">0</span>
+                    <button onclick="updateQty('enfants-0', 1)" id="btn-plus-enfants-0">+</button>
                 </div>
             </div>
 
@@ -572,9 +623,9 @@
                 <p>Pâtes au choix: tomate, pesto, ou nature</p>
                 <div class="price">12.90 CHF</div>
                 <div class="qty-control">
-                    <button onclick="updateQty('enfant-1', -1)" disabled id="btn-min-enfant-1">-</button>
-                    <span id="qty-enfant-1">0</span>
-                    <button onclick="updateQty('enfant-1', 1)" id="btn-plus-enfant-1">+</button>
+                    <button onclick="updateQty('enfants-1', -1)" disabled id="btn-min-enfants-1">-</button>
+                    <span id="qty-enfants-1">0</span>
+                    <button onclick="updateQty('enfants-1', 1)" id="btn-plus-enfants-1">+</button>
                 </div>
             </div>
 
@@ -593,43 +644,181 @@
         <div class="modal-content">
             <h2>📝 Votre commande</h2>
             <div id="order-list" style="background:#f5f5f5;padding:15px;border-radius:10px;margin:15px 0;max-height:200px;overflow-y:auto;"></div>
-            <input type="text" id="name" placeholder="Nom et prénom *">
-            <input type="tel" id="phone" placeholder="Téléphone *">
-            <textarea id="address" rows="2" placeholder="Adresse de livraison *"></textarea>
-            <label style="display:flex;align-items:center;gap:10px;margin:10px 0;cursor:pointer;">
-                <input type="checkbox" id="takeaway" onchange="toggleAddress()"> 🛍️ À emporter
-            </label>
-            <textarea id="notes" rows="2" placeholder="Commentaires (allergies...)"></textarea>
+
+            <div class="form-group">
+                <label>Nom et prénom *</label>
+                <input type="text" id="name" placeholder="Jean Dupont">
+            </div>
+
+            <div class="form-group">
+                <label>Téléphone *</label>
+                <input type="tel" id="phone" placeholder="079 123 45 67">
+            </div>
+
+            <div class="form-group">
+                <label>Mode de réception *</label>
+                <div class="radio-group">
+                    <div class="radio-option" onclick="selectDeliveryMode('delivery')">
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="delivery_mode" value="delivery" id="mode-delivery" onchange="onModeChange()" style="width:auto;">
+                            🛵 Livraison
+                        </label>
+                    </div>
+                    <div class="radio-option" onclick="selectDeliveryMode('pickup')">
+                        <label style="cursor:pointer;">
+                            <input type="radio" name="delivery_mode" value="pickup" id="mode-pickup" onchange="onModeChange()" style="width:auto;">
+                            🛍️ À emporter
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="address-group">
+                <label>Adresse de livraison *</label>
+                <textarea id="address" rows="2" placeholder="Rue de la Gare 10, 2800 Delémont"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Date et heure de livraison/retrait *</label>
+                <div class="datetime-row">
+                    <div>
+                        <input type="date" id="delivery-date" onchange="updateTimeOptions()">
+                    </div>
+                    <div>
+                        <select id="delivery-time">
+                            <option value="">Choisir l'heure</option>
+                        </select>
+                    </div>
+                </div>
+                <small style="color:#666;">Minimum 45 minutes après maintenant</small>
+            </div>
+
+            <div class="form-group">
+                <label>Commentaires</label>
+                <textarea id="notes" rows="2" placeholder="Allergies, instructions spéciales..."></textarea>
+            </div>
+
             <button class="btn-primary" onclick="sendOrder()">📲 Envoyer par WhatsApp</button>
         </div>
     </div>
 
     <script>
-        var cart = {};
-        var prices = {'pizza-0': 16.9, 'pizza-1': 16.9, 'pizza-2': 17.9, 'pizza-3': 17.9, 'pizza-4': 18.9, 'pizza-5': 18.9, 'pizza-6': 19.9, 'pizza-7': 19.9, 'pizza-8': 20.9, 'pizza-9': 21.9, 'pizza-10': 21.9, 'pizza-11': 22.9, 'pizza-12': 22.9, 'pizza-13': 23.9, 'pizza-14': 23.9, 'pizza-15': 23.9, 'pate-0': 15.9, 'pate-1': 13.9, 'pate-2': 15.9, 'pate-3': 16.9, 'pate-4': 16.9, 'pate-5': 17.9, 'pate-6': 16.9, 'salade-0': 6.0, 'salade-1': 8.0, 'salade-2': 16.0, 'salade-3': 10.0, 'salade-4': 16.0, 'salade-5': 18.0, 'salade-6': 19.9, 'salade-7': 8.0, 'salade-8': 14.9, 'autre-0': 18.0, 'autre-1': 25.0, 'autre-2': 25.0, 'enfant-0': 12.9, 'enfant-1': 12.9};
-        var names = {'pizza-0': "Pizza Esposito's", 'pizza-1': "Pizza Sicilia", 'pizza-2': "Pizza Calabria", 'pizza-3': "Pizza Piemonte", 'pizza-4': "Pizza Puglia", 'pizza-5': "Pizza Abbruzzo", 'pizza-6': "Pizza Toscana", 'pizza-7': "Pizza Umbria", 'pizza-8': "Pizza Lazio", 'pizza-9': "Pizza Tutti al Mare!", 'pizza-10': "Pizza Emilia Romagna", 'pizza-11': "Pizza Lombardia", 'pizza-12': "Pizza Trentino", 'pizza-13': "Pizza Liguria", 'pizza-14': "Pizza Campania", 'pizza-15': "Pizza Tchie Nos's", 'pate-0': "Pâtes Ail et pesto", 'pate-1': "Pâtes Sauce tomate", 'pate-2': "Pâtes Arrabiata", 'pate-3': "Pâtes Carbonara", 'pate-4': "Pâtes Bolognaise", 'pate-5': "Lasagnes au bœuf", 'pate-6': "Lasagnes aux légumes", 'salade-0': "Salade verte", 'salade-1': "Salade mêlée", 'salade-2': "Grande mêlée", 'salade-3': "Petite Caprese", 'salade-4': "Grande Caprese", 'salade-5': "Chef verte", 'salade-6': "Chèvre verte", 'salade-7': "Légumes de saison (P)", 'salade-8': "Légumes de saison (G)", 'autre-0': "Tranche panée de poulet", 'autre-1': "Roastbeef", 'autre-2': "Tartare de bœuf", 'enfant-0': "Bambini - Poulet pané", 'enfant-1': "Bambini - Pâtes"};
 
-        // Navigation sans rechargement
+        // Données du menu
+        var itemsData = {
+            pizzas: [
+                {n: "Pizza Esposito's", p: 16.90}, {n: "Pizza Sicilia", p: 16.90},
+                {n: "Pizza Calabria", p: 17.90}, {n: "Pizza Piemonte", p: 17.90},
+                {n: "Pizza Puglia", p: 18.90}, {n: "Pizza Abbruzzo", p: 18.90},
+                {n: "Pizza Toscana", p: 19.90}, {n: "Pizza Umbria", p: 19.90},
+                {n: "Pizza Lazio", p: 20.90}, {n: "Pizza Tutti al Mare!", p: 21.90},
+                {n: "Pizza Emilia Romagna", p: 21.90}, {n: "Pizza Lombardia", p: 22.90},
+                {n: "Pizza Trentino", p: 22.90}, {n: "Pizza Liguria", p: 23.90},
+                {n: "Pizza Campania", p: 23.90}, {n: "Pizza Tchie Nos's", p: 23.90}
+            ],
+            pates: [
+                {n: "Pâtes Ail et pesto", p: 15.90}, {n: "Pâtes Sauce tomate", p: 13.90},
+                {n: "Pâtes Arrabiata", p: 15.90}, {n: "Pâtes Carbonara", p: 16.90},
+                {n: "Pâtes Bolognaise", p: 16.90}, {n: "Lasagnes au bœuf", p: 17.90},
+                {n: "Lasagnes aux légumes", p: 16.90}
+            ],
+            salades: [
+                {n: "Salade verte", p: 6.00}, {n: "Salade mêlée", p: 8.00},
+                {n: "Grande mêlée", p: 16.00}, {n: "Petite Caprese", p: 10.00},
+                {n: "Grande Caprese", p: 16.00}, {n: "Chef verte", p: 18.00},
+                {n: "Chèvre verte", p: 19.90}, {n: "Légumes de saison (P)", p: 8.00},
+                {n: "Légumes de saison (G)", p: 14.90}
+            ],
+            autres: [
+                {n: "Tranche panée de poulet", p: 18.00}, {n: "Roastbeef", p: 25.00},
+                {n: "Tartare de bœuf", p: 25.00}
+            ],
+            enfants: [
+                {n: "Bambini - Poulet pané", p: 12.90}, {n: "Bambini - Pâtes", p: 12.90}
+            ]
+        };
+
+        var cart = {};
+
+        // Initialisation
+        function init() {
+            setupDateInput();
+            updateTimeOptions();
+        }
+
+        // Configuration de la date minimum (aujourd'hui)
+        function setupDateInput() {
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var dd = String(today.getDate()).padStart(2, '0');
+            var dateStr = yyyy + '-' + mm + '-' + dd;
+
+            var dateInput = document.getElementById('delivery-date');
+            dateInput.min = dateStr;
+            dateInput.value = dateStr;
+        }
+
+        // Mettre à jour les options d'heure selon la date choisie
+        function updateTimeOptions() {
+            var dateInput = document.getElementById('delivery-date').value;
+            var timeSelect = document.getElementById('delivery-time');
+
+            if (!dateInput) return;
+
+            // Vider les options existantes
+            timeSelect.innerHTML = '<option value="">Choisir l'heure</option>';
+
+            var selectedDate = new Date(dateInput);
+            var now = new Date();
+            var isToday = selectedDate.toDateString() === now.toDateString();
+
+            // Heure minimum : maintenant + 45 minutes
+            var minTime = new Date(now.getTime() + 45 * 60000);
+
+            // Heures d'ouverture (à adapter selon vos horaires)
+            var startHour = 11; // 11h00
+            var endHour = 22;   // 22h00
+
+            // Si c'est aujourd'hui, commencer après l'heure minimum
+            if (isToday) {
+                startHour = Math.max(startHour, minTime.getHours());
+            }
+
+            // Générer les créneaux toutes les 15 minutes
+            for (var h = startHour; h < endHour; h++) {
+                for (var m = 0; m < 60; m += 15) {
+                    // Si c'est aujourd'hui et l'heure de début, vérifier les minutes
+                    if (isToday && h === minTime.getHours() && m < minTime.getMinutes()) {
+                        continue;
+                    }
+
+                    var timeStr = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
+                    var option = document.createElement('option');
+                    option.value = timeStr;
+                    option.textContent = timeStr;
+                    timeSelect.appendChild(option);
+                }
+            }
+        }
+
+        // Navigation
         function showCategory(catId, btn) {
-            // Cacher toutes les catégories
             var cats = document.getElementsByClassName('category');
             for (var i = 0; i < cats.length; i++) {
                 cats[i].classList.remove('active');
             }
-            // Montrer la catégorie sélectionnée
             document.getElementById(catId).classList.add('active');
 
-            // Mettre à jour les boutons
             var buttons = document.querySelectorAll('.nav button');
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].classList.remove('active');
             }
             btn.classList.add('active');
-
-            // Scroll en haut
             window.scrollTo(0, 0);
         }
 
+        // Quantités
         function updateQty(id, change) {
             if (!cart[id]) cart[id] = 0;
             cart[id] += change;
@@ -639,7 +828,6 @@
             document.getElementById('qty-' + id).textContent = cart[id];
             document.getElementById('btn-min-' + id).disabled = (cart[id] <= 0);
             document.getElementById('btn-plus-' + id).disabled = (cart[id] >= 10);
-
             updateCart();
         }
 
@@ -647,7 +835,10 @@
             var total = 0, count = 0;
             for (var id in cart) {
                 if (cart[id] > 0) {
-                    total += prices[id] * cart[id];
+                    var parts = id.split('-');
+                    var cat = parts[0];
+                    var idx = parseInt(parts[1]);
+                    total += itemsData[cat][idx].p * cart[id];
                     count += cart[id];
                 }
             }
@@ -656,22 +847,61 @@
             document.getElementById('order-btn').disabled = (count === 0);
         }
 
+        // Mode de livraison
+        function selectDeliveryMode(mode) {
+            document.getElementById('mode-' + mode).checked = true;
+            onModeChange();
+        }
+
+        function onModeChange() {
+            var isDelivery = document.getElementById('mode-delivery').checked;
+            var addressGroup = document.getElementById('address-group');
+
+            // Mettre à jour le style visuel
+            var options = document.querySelectorAll('.radio-option');
+            options[0].classList.toggle('selected', isDelivery);
+            options[1].classList.toggle('selected', !isDelivery);
+
+            // Afficher/masquer l'adresse
+            if (isDelivery) {
+                addressGroup.classList.remove('hidden');
+                document.getElementById('address').required = true;
+            } else {
+                addressGroup.classList.add('hidden');
+                document.getElementById('address').required = false;
+                document.getElementById('address').value = '';
+            }
+        }
+
+        // Modal commande
         function openOrder() {
             var list = document.getElementById('order-list');
             var html = '';
             var total = 0;
+
             for (var id in cart) {
                 if (cart[id] > 0) {
-                    var sub = prices[id] * cart[id];
+                    var parts = id.split('-');
+                    var cat = parts[0];
+                    var idx = parseInt(parts[1]);
+                    var item = itemsData[cat][idx];
+                    var sub = item.p * cart[id];
                     total += sub;
                     html += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #ddd;">';
-                    html += '<span>' + cart[id] + '× ' + names[id] + '</span>';
+                    html += '<span>' + cart[id] + '× ' + item.n + '</span>';
                     html += '<span>' + sub.toFixed(2) + ' CHF</span></div>';
                 }
             }
             html += '<div style="font-weight:bold;color:#C41E3A;font-size:18px;margin-top:10px;padding-top:10px;border-top:2px solid #C41E3A;display:flex;justify-content:space-between;">';
             html += '<span>TOTAL</span><span>' + total.toFixed(2) + ' CHF</span></div>';
             list.innerHTML = html;
+
+            // Réinitialiser le modal
+            document.getElementById('mode-delivery').checked = false;
+            document.getElementById('mode-pickup').checked = false;
+            document.querySelectorAll('.radio-option').forEach(function(el) { el.classList.remove('selected'); });
+            document.getElementById('address-group').classList.remove('hidden');
+
             document.getElementById('orderModal').classList.add('show');
         }
 
@@ -679,64 +909,92 @@
             document.getElementById('orderModal').classList.remove('show');
         }
 
-        function toggleAddress() {
-            var addr = document.getElementById('address');
-            if (document.getElementById('takeaway').checked) {
-                addr.style.display = 'none';
-                addr.value = 'À emporter';
-            } else {
-                addr.style.display = 'block';
-                addr.value = '';
-            }
-        }
-
+        // Envoi commande
         function sendOrder() {
             var name = document.getElementById('name').value.trim();
             var phone = document.getElementById('phone').value.trim();
+            var isDelivery = document.getElementById('mode-delivery').checked;
+            var isPickup = document.getElementById('mode-pickup').checked;
             var address = document.getElementById('address').value.trim();
+            var date = document.getElementById('delivery-date').value;
+            var time = document.getElementById('delivery-time').value;
             var notes = document.getElementById('notes').value.trim();
-            var isTakeaway = document.getElementById('takeaway').checked;
 
-            if (!name || !phone || !address) {
-                alert('Veuillez remplir tous les champs obligatoires');
+            // Validation
+            if (!name || !phone) {
+                alert('Veuillez remplir le nom et le téléphone');
+                return;
+            }
+            if (!isDelivery && !isPickup) {
+                alert('Veuillez choisir le mode de réception (Livraison ou À emporter)');
+                return;
+            }
+            if (isDelivery && !address) {
+                alert('Veuillez indiquer l'adresse de livraison');
+                return;
+            }
+            if (!date || !time) {
+                alert('Veuillez choisir la date et l'heure');
                 return;
             }
 
-            var msg = '🍕 NOUVELLE COMMANDE TCHIE NOS %0A%0A👤 Client: ' + encodeURIComponent(name);
-            msg += '%0A📞 Tél: ' + encodeURIComponent(phone);
-            msg += isTakeaway ? '%0A🛍️ À EMPORTER' : '%0A📍 Livraison: ' + encodeURIComponent(address);
-            msg += '%0A%0ACommande:%0A';
+            // Construire le message WhatsApp
+            var msg = '🍕 *NOUVELLE COMMANDE TCHIE NOS* %0A%0A';
+            msg += '👤 *Client:* ' + encodeURIComponent(name) + '%0A';
+            msg += '📞 *Téléphone:* ' + encodeURIComponent(phone) + '%0A';
+
+            if (isDelivery) {
+                msg += '🛵 *Livraison*%0A';
+                msg += '📍 *Adresse:* ' + encodeURIComponent(address) + '%0A';
+            } else {
+                msg += '🛍️ *À emporter*%0A';
+            }
+
+            msg += '📅 *Date:* ' + date + '%0A';
+            msg += '🕐 *Heure:* ' + time + '%0A%0A';
+            msg += '*Commande:*%0A';
 
             var total = 0;
             for (var id in cart) {
                 if (cart[id] > 0) {
-                    total += prices[id] * cart[id];
-                    msg += '• ' + cart[id] + '× ' + names[id] + ' - ' + prices[id].toFixed(2) + ' CHF%0A';
+                    var parts = id.split('-');
+                    var cat = parts[0];
+                    var idx = parseInt(parts[1]);
+                    var item = itemsData[cat][idx];
+                    total += item.p * cart[id];
+                    msg += '• ' + cart[id] + '× ' + item.n + ' - ' + item.p.toFixed(2) + ' CHF%0A';
                 }
             }
-            msg += '%0A💰 TOTAL: ' + total.toFixed(2) + ' CHF';
-            if (notes) msg += '%0A%0A📝 Note: ' + encodeURIComponent(notes);
+
+            msg += '%0A💰 *TOTAL: ' + total.toFixed(2) + ' CHF*';
+            if (notes) msg += '%0A%0A📝 *Commentaires:* ' + encodeURIComponent(notes);
             msg += '%0A%0A_Paiement à la livraison_';
 
             window.open('https://wa.me/41779431480?text=' + msg, '_blank');
 
             // Reset
             cart = {};
-            var spans = document.querySelectorAll('[id^="qty-"]');
-            for (var i = 0; i < spans.length; i++) spans[i].textContent = '0';
-            var btns = document.querySelectorAll('[id^="btn-min-"]');
-            for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
-            var btnPlus = document.querySelectorAll('[id^="btn-plus-"]');
-            for (var i = 0; i < btnPlus.length; i++) btnPlus[i].disabled = false;
+            document.querySelectorAll('[id^="qty-"]').forEach(function(el) { el.textContent = '0'; });
+            document.querySelectorAll('[id^="btn-min-"]').forEach(function(el) { el.disabled = true; });
+            document.querySelectorAll('[id^="btn-plus-"]').forEach(function(el) { el.disabled = false; });
             updateCart();
             closeOrder();
+
+            // Reset form
             document.getElementById('name').value = '';
             document.getElementById('phone').value = '';
             document.getElementById('address').value = '';
             document.getElementById('notes').value = '';
-            document.getElementById('takeaway').checked = false;
-            toggleAddress();
+            document.getElementById('mode-delivery').checked = false;
+            document.getElementById('mode-pickup').checked = false;
+            document.querySelectorAll('.radio-option').forEach(function(el) { el.classList.remove('selected'); });
+            document.getElementById('address-group').classList.remove('hidden');
+            setupDateInput();
+            updateTimeOptions();
         }
+
+        // Démarrer
+        init();
     </script>
 </body>
 </html>
