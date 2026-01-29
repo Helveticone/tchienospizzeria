@@ -3,205 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tchie Nos Pizzeria - Commande</title>
+    <title>Tchie Nos Pizzeria</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f5f5f5; padding-bottom: 100px; }
 
-        .header { 
-            background: linear-gradient(135deg, #C41E3A, #9B1B30); 
-            color: white; 
-            padding: 20px; 
-            text-align: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100;
-            border-bottom: 4px solid #FFD700;
-        }
-        .header img { width: 80px; height: 80px; background: white; border-radius: 50%; margin-bottom: 10px; padding: 5px; border: 3px solid #FFD700; }
+        .header { background: linear-gradient(135deg, #C41E3A, #9B1B30); color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 100; border-bottom: 4px solid #FFD700; }
+        .header img { width: 120px; height: 120px; background: white; border-radius: 50%; margin-bottom: 10px; padding: 5px; border: 3px solid #FFD700; object-fit: cover; }
         .badges { margin-top: 10px; }
         .badge { display: inline-block; background: #FFD700; color: #1E3A5F; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: bold; margin: 2px; }
 
-        .nav { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: white; position: sticky; top: 155px; z-index: 99; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .nav button { 
-            flex-shrink: 0; 
-            padding: 12px 20px; 
-            border: 2px solid #C41E3A; 
-            background: white; 
-            color: #C41E3A; 
-            border-radius: 25px; 
-            font-weight: bold; 
-            font-size: 14px;
-            cursor: pointer;
-        }
+        .nav { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: white; position: sticky; top: 220px; z-index: 99; box-shadow: 0 2px 10px rgba(0,0,0,0.1); -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .nav::-webkit-scrollbar { display: none; }
+        .nav button { flex-shrink: 0; padding: 12px 20px; border: 2px solid #C41E3A; background: white; color: #C41E3A; border-radius: 25px; font-weight: bold; font-size: 14px; cursor: pointer; transition: all 0.3s; }
         .nav button:hover, .nav button.active { background: #C41E3A; color: white; }
 
         .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .category { display: none; animation: fadeIn 0.3s; }
+        .category.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .category { display: none; }
-        .category.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        h2 { color: #1E3A5F; margin: 20px 0 15px 0; padding-bottom: 10px; border-bottom: 3px solid #FFD700; }
 
-        h2 { color: #1E3A5F; margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 3px solid #FFD700; }
-        h2:first-child { margin-top: 0; }
-
-        .item {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-left: 4px solid #C41E3A;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+        .item { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 4px solid #C41E3A; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
         .item h3 { color: #1E3A5F; margin-bottom: 5px; font-size: 16px; }
         .item p { color: #666; font-size: 13px; margin-bottom: 8px; }
         .item .price { color: #C41E3A; font-weight: bold; font-size: 18px; }
 
-        .qty-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .qty-control button {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            border: none;
-            background: #C41E3A;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+        .qty-control { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .qty-control button { width: 35px; height: 35px; border-radius: 50%; border: none; background: #C41E3A; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .qty-control button:hover:not(:disabled) { background: #9B1B30; transform: scale(1.1); }
         .qty-control button:disabled { background: #ccc; cursor: not-allowed; }
-        .qty-control span {
-            font-weight: bold;
-            min-width: 30px;
-            text-align: center;
-            font-size: 16px;
-        }
+        .qty-control span { font-weight: bold; min-width: 30px; text-align: center; font-size: 16px; }
 
-        .cart {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 15px 20px;
-            border-top: 3px solid #FFD700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-        .cart button {
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .cart button:disabled { background: #ccc; }
+        .cart { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px 20px; border-top: 3px solid #FFD700; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+        .cart button { background: #25D366; color: white; border: none; padding: 15px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px; transition: all 0.2s; }
+        .cart button:hover:not(:disabled) { background: #128C7E; transform: scale(1.05); }
+        .cart button:disabled { background: #ccc; cursor: not-allowed; }
 
-        #orderModal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 2000;
-            align-items: flex-end;
-            justify-content: center;
-        }
+        #orderModal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: flex-end; justify-content: center; }
         #orderModal.show { display: flex; }
-        .modal-content {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border-radius: 20px 20px 0 0;
-            padding: 25px;
-        }
+        .modal-content { background: white; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; border-radius: 20px 20px 0 0; padding: 25px; }
 
         .form-group { margin-bottom: 15px; }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #1E3A5F;
-            font-size: 14px;
-        }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #1E3A5F; font-size: 14px; }
+        input, textarea, select { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 15px; font-family: inherit; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #C41E3A; }
 
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 15px;
-            font-family: inherit;
-        }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #C41E3A;
-        }
+        .radio-group { display: flex; gap: 15px; margin: 15px 0; }
+        .radio-option { flex: 1; padding: 15px; border: 2px solid #e0e0e0; border-radius: 12px; cursor: pointer; text-align: center; transition: all 0.2s; }
+        .radio-option:hover { border-color: #C41E3A; }
+        .radio-option.selected { border-color: #C41E3A; background: rgba(196, 30, 58, 0.05); }
+        .radio-option label { display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: normal; }
+        .radio-option input { width: auto; margin-right: 8px; cursor: pointer; }
 
-        .radio-group {
-            display: flex;
-            gap: 15px;
-            margin: 15px 0;
-        }
-        .radio-option {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .radio-option:hover {
-            border-color: #C41E3A;
-        }
-        .radio-option.selected {
-            border-color: #C41E3A;
-            background: rgba(196, 30, 58, 0.05);
-        }
-        .radio-option input[type="radio"] {
-            width: auto;
-            margin-right: 8px;
-        }
+        .datetime-row { display: flex; gap: 10px; }
+        .datetime-row > div { flex: 1; }
 
-        .datetime-row {
-            display: flex;
-            gap: 10px;
-        }
-        .datetime-row > div {
-            flex: 1;
-        }
-
-        .btn-primary {
-            width: 100%;
-            background: #C41E3A;
-            color: white;
-            border: none;
-            padding: 16px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        .hidden { display: none; }
+        .btn-primary { width: 100%; background: #C41E3A; color: white; border: none; padding: 16px; border-radius: 25px; font-size: 16px; font-weight: bold; margin-top: 10px; cursor: pointer; transition: all 0.2s; }
+        .btn-primary:hover { background: #9B1B30; transform: scale(1.02); }
+        .hidden { display: none !important; }
     </style>
-<base target="_blank">
 </head>
 <body>
     <div class="header">
-        <img src="data:image/png;base64,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" alt="Logo">
+        <img src="logo-tchie-nos.png" alt="Logo Tchie Nos Pizzeria">
         <h1>Tchie Nos Pizzeria</h1>
         <p>Commandez en ligne • Paiement à la livraison</p>
         <div class="badges">
@@ -219,417 +85,11 @@
     </div>
 
     <div class="container">
-        <div id="pizzas" class="category active">
-            <h2>🍕 Pizzas</h2>
-
-            <div class="item">
-                <h3>Pizza Esposito's</h3>
-                <p>Tomate, ail, câpres, origan</p>
-                <div class="price">16.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-0', -1)" disabled id="btn-min-pizzas-0">-</button>
-                    <span id="qty-pizzas-0">0</span>
-                    <button onclick="updateQty('pizzas-0', 1)" id="btn-plus-pizzas-0">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Sicilia</h3>
-                <p>Tomate, mozzarella, aubergine, parmesan, basilic</p>
-                <div class="price">16.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-1', -1)" disabled id="btn-min-pizzas-1">-</button>
-                    <span id="qty-pizzas-1">0</span>
-                    <button onclick="updateQty('pizzas-1', 1)" id="btn-plus-pizzas-1">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Calabria</h3>
-                <p>Tomate, mozzarella, chorizo, poivrons, oignons</p>
-                <div class="price">17.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-2', -1)" disabled id="btn-min-pizzas-2">-</button>
-                    <span id="qty-pizzas-2">0</span>
-                    <button onclick="updateQty('pizzas-2', 1)" id="btn-plus-pizzas-2">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Piemonte</h3>
-                <p>Tomate, mozzarella, pommes de terre, olives, persil</p>
-                <div class="price">17.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-3', -1)" disabled id="btn-min-pizzas-3">-</button>
-                    <span id="qty-pizzas-3">0</span>
-                    <button onclick="updateQty('pizzas-3', 1)" id="btn-plus-pizzas-3">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Puglia</h3>
-                <p>Tomate, mozzarella, brocoli, jambon à l'os, tomates séchées</p>
-                <div class="price">18.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-4', -1)" disabled id="btn-min-pizzas-4">-</button>
-                    <span id="qty-pizzas-4">0</span>
-                    <button onclick="updateQty('pizzas-4', 1)" id="btn-plus-pizzas-4">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Abbruzzo</h3>
-                <p>Tomate, mozzarella, thon, oignons, câpres, anchois</p>
-                <div class="price">18.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-5', -1)" disabled id="btn-min-pizzas-5">-</button>
-                    <span id="qty-pizzas-5">0</span>
-                    <button onclick="updateQty('pizzas-5', 1)" id="btn-plus-pizzas-5">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Toscana</h3>
-                <p>Tomate, mozzarella, légumes de saison</p>
-                <div class="price">19.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-6', -1)" disabled id="btn-min-pizzas-6">-</button>
-                    <span id="qty-pizzas-6">0</span>
-                    <button onclick="updateQty('pizzas-6', 1)" id="btn-plus-pizzas-6">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Umbria</h3>
-                <p>Tomate, mozzarella, champignons, saucisse d'Ajoie</p>
-                <div class="price">19.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-7', -1)" disabled id="btn-min-pizzas-7">-</button>
-                    <span id="qty-pizzas-7">0</span>
-                    <button onclick="updateQty('pizzas-7', 1)" id="btn-plus-pizzas-7">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Lazio</h3>
-                <p>Tomate, mozzarella, lard du Noirmont, poivrons, miel</p>
-                <div class="price">20.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-8', -1)" disabled id="btn-min-pizzas-8">-</button>
-                    <span id="qty-pizzas-8">0</span>
-                    <button onclick="updateQty('pizzas-8', 1)" id="btn-plus-pizzas-8">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Tutti al Mare!</h3>
-                <p>Tomate, mozzarella, crevettes, salade, sauce</p>
-                <div class="price">21.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-9', -1)" disabled id="btn-min-pizzas-9">-</button>
-                    <span id="qty-pizzas-9">0</span>
-                    <button onclick="updateQty('pizzas-9', 1)" id="btn-plus-pizzas-9">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Emilia Romagna</h3>
-                <p>Tomate, mozzarella, hachis de bœuf, oignons, épices</p>
-                <div class="price">21.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-10', -1)" disabled id="btn-min-pizzas-10">-</button>
-                    <span id="qty-pizzas-10">0</span>
-                    <button onclick="updateQty('pizzas-10', 1)" id="btn-plus-pizzas-10">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Lombardia</h3>
-                <p>Tomate, mozzarella, chevrette de Movelier, champignons</p>
-                <div class="price">22.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-11', -1)" disabled id="btn-min-pizzas-11">-</button>
-                    <span id="qty-pizzas-11">0</span>
-                    <button onclick="updateQty('pizzas-11', 1)" id="btn-plus-pizzas-11">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Trentino</h3>
-                <p>Tomate, mozzarella, lard, pavé du Père Joseph</p>
-                <div class="price">22.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-12', -1)" disabled id="btn-min-pizzas-12">-</button>
-                    <span id="qty-pizzas-12">0</span>
-                    <button onclick="updateQty('pizzas-12', 1)" id="btn-plus-pizzas-12">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Liguria</h3>
-                <p>Tomate, mortadelle, pesto, pistaches, burrata</p>
-                <div class="price">23.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-13', -1)" disabled id="btn-min-pizzas-13">-</button>
-                    <span id="qty-pizzas-13">0</span>
-                    <button onclick="updateQty('pizzas-13', 1)" id="btn-plus-pizzas-13">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Campania</h3>
-                <p>Tomate, mozzarella, crème fraîche, jambon cru, roquette</p>
-                <div class="price">23.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-14', -1)" disabled id="btn-min-pizzas-14">-</button>
-                    <span id="qty-pizzas-14">0</span>
-                    <button onclick="updateQty('pizzas-14', 1)" id="btn-plus-pizzas-14">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pizza Tchie Nos's</h3>
-                <p>Tomate, mozzarella, tête de moine, Rêve du Jura, gruyère</p>
-                <div class="price">23.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pizzas-15', -1)" disabled id="btn-min-pizzas-15">-</button>
-                    <span id="qty-pizzas-15">0</span>
-                    <button onclick="updateQty('pizzas-15', 1)" id="btn-plus-pizzas-15">+</button>
-                </div>
-            </div>
-</div><div id="pates" class="category"><h2>🍝 Pates</h2>
-            <div class="item">
-                <h3>Pâtes Ail et pesto</h3>
-                <p>Pâtes fraîches sauce ail et pesto maison</p>
-                <div class="price">15.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pates-0', -1)" disabled id="btn-min-pates-0">-</button>
-                    <span id="qty-pates-0">0</span>
-                    <button onclick="updateQty('pates-0', 1)" id="btn-plus-pates-0">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pâtes Sauce tomate</h3>
-                <p>Pâtes fraîches sauce tomate basilic</p>
-                <div class="price">13.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pates-1', -1)" disabled id="btn-min-pates-1">-</button>
-                    <span id="qty-pates-1">0</span>
-                    <button onclick="updateQty('pates-1', 1)" id="btn-plus-pates-1">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pâtes Arrabiata</h3>
-                <p>Pâtes fraîches sauce tomate pimentée</p>
-                <div class="price">15.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pates-2', -1)" disabled id="btn-min-pates-2">-</button>
-                    <span id="qty-pates-2">0</span>
-                    <button onclick="updateQty('pates-2', 1)" id="btn-plus-pates-2">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pâtes Carbonara</h3>
-                <p>Pâtes fraîches, lardons, œuf, parmesan</p>
-                <div class="price">16.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pates-3', -1)" disabled id="btn-min-pates-3">-</button>
-                    <span id="qty-pates-3">0</span>
-                    <button onclick="updateQty('pates-3', 1)" id="btn-plus-pates-3">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Pâtes Bolognaise</h3>
-                <p>Pâtes fraîches sauce bolognaise maison</p>
-                <div class="price">16.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pates-4', -1)" disabled id="btn-min-pates-4">-</button>
-                    <span id="qty-pates-4">0</span>
-                    <button onclick="updateQty('pates-4', 1)" id="btn-plus-pates-4">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Lasagnes au bœuf</h3>
-                <p>Lasagnes maison au bœuf et béchamel</p>
-                <div class="price">17.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pates-5', -1)" disabled id="btn-min-pates-5">-</button>
-                    <span id="qty-pates-5">0</span>
-                    <button onclick="updateQty('pates-5', 1)" id="btn-plus-pates-5">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Lasagnes aux légumes</h3>
-                <p>Lasagnes maison aux légumes de saison</p>
-                <div class="price">16.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('pates-6', -1)" disabled id="btn-min-pates-6">-</button>
-                    <span id="qty-pates-6">0</span>
-                    <button onclick="updateQty('pates-6', 1)" id="btn-plus-pates-6">+</button>
-                </div>
-            </div>
-</div><div id="salades" class="category"><h2>🥗 Salades</h2>
-            <div class="item">
-                <h3>Salade verte</h3>
-                <p>Mélange de salades vertes, vinaigrette maison</p>
-                <div class="price">6.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-0', -1)" disabled id="btn-min-salades-0">-</button>
-                    <span id="qty-salades-0">0</span>
-                    <button onclick="updateQty('salades-0', 1)" id="btn-plus-salades-0">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Salade mêlée</h3>
-                <p>Salade composée avec légumes frais</p>
-                <div class="price">8.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-1', -1)" disabled id="btn-min-salades-1">-</button>
-                    <span id="qty-salades-1">0</span>
-                    <button onclick="updateQty('salades-1', 1)" id="btn-plus-salades-1">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Grande mêlée</h3>
-                <p>Grande salade composée généreuse</p>
-                <div class="price">16.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-2', -1)" disabled id="btn-min-salades-2">-</button>
-                    <span id="qty-salades-2">0</span>
-                    <button onclick="updateQty('salades-2', 1)" id="btn-plus-salades-2">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Petite Caprese</h3>
-                <p>Tomates, mozzarella, basilic, huile d'olive</p>
-                <div class="price">10.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-3', -1)" disabled id="btn-min-salades-3">-</button>
-                    <span id="qty-salades-3">0</span>
-                    <button onclick="updateQty('salades-3', 1)" id="btn-plus-salades-3">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Grande Caprese</h3>
-                <p>Grande assiette Caprese</p>
-                <div class="price">16.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-4', -1)" disabled id="btn-min-salades-4">-</button>
-                    <span id="qty-salades-4">0</span>
-                    <button onclick="updateQty('salades-4', 1)" id="btn-plus-salades-4">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Chef verte</h3>
-                <p>Salade complète du chef avec garnitures</p>
-                <div class="price">18.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-5', -1)" disabled id="btn-min-salades-5">-</button>
-                    <span id="qty-salades-5">0</span>
-                    <button onclick="updateQty('salades-5', 1)" id="btn-plus-salades-5">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Chèvre verte</h3>
-                <p>Salade avec chèvre chaud, miel, noix</p>
-                <div class="price">19.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-6', -1)" disabled id="btn-min-salades-6">-</button>
-                    <span id="qty-salades-6">0</span>
-                    <button onclick="updateQty('salades-6', 1)" id="btn-plus-salades-6">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Légumes de saison (P)</h3>
-                <p>Assiette de légumes de saison grillés</p>
-                <div class="price">8.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-7', -1)" disabled id="btn-min-salades-7">-</button>
-                    <span id="qty-salades-7">0</span>
-                    <button onclick="updateQty('salades-7', 1)" id="btn-plus-salades-7">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Légumes de saison (G)</h3>
-                <p>Grande assiette de légumes de saison</p>
-                <div class="price">14.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('salades-8', -1)" disabled id="btn-min-salades-8">-</button>
-                    <span id="qty-salades-8">0</span>
-                    <button onclick="updateQty('salades-8', 1)" id="btn-plus-salades-8">+</button>
-                </div>
-            </div>
-</div><div id="autres" class="category"><h2>🍖 Autres</h2>
-            <div class="item">
-                <h3>Tranche panée de poulet</h3>
-                <p>Escalope de poulet panée avec garniture</p>
-                <div class="price">18.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('autres-0', -1)" disabled id="btn-min-autres-0">-</button>
-                    <span id="qty-autres-0">0</span>
-                    <button onclick="updateQty('autres-0', 1)" id="btn-plus-autres-0">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Roastbeef</h3>
-                <p>Tranches de roastbeef, sauce, garniture</p>
-                <div class="price">25.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('autres-1', -1)" disabled id="btn-min-autres-1">-</button>
-                    <span id="qty-autres-1">0</span>
-                    <button onclick="updateQty('autres-1', 1)" id="btn-plus-autres-1">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Tartare de bœuf</h3>
-                <p>Tartare de bœuf préparé maison, frites</p>
-                <div class="price">25.00 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('autres-2', -1)" disabled id="btn-min-autres-2">-</button>
-                    <span id="qty-autres-2">0</span>
-                    <button onclick="updateQty('autres-2', 1)" id="btn-plus-autres-2">+</button>
-                </div>
-            </div>
-</div><div id="enfants" class="category"><h2>👶 Enfants</h2>
-            <div class="item">
-                <h3>Bambini - Poulet pané</h3>
-                <p>Tranche panée de poulet avec frites ou pâtes</p>
-                <div class="price">12.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('enfants-0', -1)" disabled id="btn-min-enfants-0">-</button>
-                    <span id="qty-enfants-0">0</span>
-                    <button onclick="updateQty('enfants-0', 1)" id="btn-plus-enfants-0">+</button>
-                </div>
-            </div>
-
-            <div class="item">
-                <h3>Bambini - Pâtes</h3>
-                <p>Pâtes au choix: tomate, pesto, ou nature</p>
-                <div class="price">12.90 CHF</div>
-                <div class="qty-control">
-                    <button onclick="updateQty('enfants-1', -1)" disabled id="btn-min-enfants-1">-</button>
-                    <span id="qty-enfants-1">0</span>
-                    <button onclick="updateQty('enfants-1', 1)" id="btn-plus-enfants-1">+</button>
-                </div>
-            </div>
-
-        </div>
+        <div id="pizzas" class="category active"></div>
+        <div id="pates" class="category"></div>
+        <div id="salades" class="category"></div>
+        <div id="autres" class="category"></div>
+        <div id="enfants" class="category"></div>
     </div>
 
     <div class="cart">
@@ -658,17 +118,11 @@
             <div class="form-group">
                 <label>Mode de réception *</label>
                 <div class="radio-group">
-                    <div class="radio-option" onclick="selectDeliveryMode('delivery')">
-                        <label style="cursor:pointer;">
-                            <input type="radio" name="delivery_mode" value="delivery" id="mode-delivery" onchange="onModeChange()" style="width:auto;">
-                            🛵 Livraison
-                        </label>
+                    <div class="radio-option" onclick="selectMode('delivery')">
+                        <label><input type="radio" name="mode" value="delivery" id="mode-delivery" onchange="onModeChange()" style="width:auto;"> 🛵 Livraison</label>
                     </div>
-                    <div class="radio-option" onclick="selectDeliveryMode('pickup')">
-                        <label style="cursor:pointer;">
-                            <input type="radio" name="delivery_mode" value="pickup" id="mode-pickup" onchange="onModeChange()" style="width:auto;">
-                            🛍️ À emporter
-                        </label>
+                    <div class="radio-option" onclick="selectMode('pickup')">
+                        <label><input type="radio" name="mode" value="pickup" id="mode-pickup" onchange="onModeChange()" style="width:auto;"> 🛍️ À emporter</label>
                     </div>
                 </div>
             </div>
@@ -679,23 +133,17 @@
             </div>
 
             <div class="form-group">
-                <label>Date et heure de livraison/retrait *</label>
+                <label>Date et heure *</label>
                 <div class="datetime-row">
-                    <div>
-                        <input type="date" id="delivery-date" onchange="updateTimeOptions()">
-                    </div>
-                    <div>
-                        <select id="delivery-time">
-                            <option value="">Choisir l'heure</option>
-                        </select>
-                    </div>
+                    <div><input type="date" id="delivery-date" onchange="updateTimes()"></div>
+                    <div><select id="delivery-time"><option value="">Choisir l'heure</option></select></div>
                 </div>
-                <small style="color:#666;">Minimum 45 minutes après maintenant</small>
+                <small style="color:#666;">Horaires: 11h30-14h et 18h30-21h30</small>
             </div>
 
             <div class="form-group">
                 <label>Commentaires</label>
-                <textarea id="notes" rows="2" placeholder="Allergies, instructions spéciales..."></textarea>
+                <textarea id="notes" rows="2" placeholder="Allergies, instructions..."></textarea>
             </div>
 
             <button class="btn-primary" onclick="sendOrder()">📲 Envoyer par WhatsApp</button>
@@ -703,103 +151,80 @@
     </div>
 
     <script>
-
-        // Données du menu
-        var itemsData = {
+        // Tous les plats
+        var menuData = {
             pizzas: [
-                {n: "Pizza Esposito's", p: 16.90}, {n: "Pizza Sicilia", p: 16.90},
-                {n: "Pizza Calabria", p: 17.90}, {n: "Pizza Piemonte", p: 17.90},
-                {n: "Pizza Puglia", p: 18.90}, {n: "Pizza Abbruzzo", p: 18.90},
-                {n: "Pizza Toscana", p: 19.90}, {n: "Pizza Umbria", p: 19.90},
-                {n: "Pizza Lazio", p: 20.90}, {n: "Pizza Tutti al Mare!", p: 21.90},
-                {n: "Pizza Emilia Romagna", p: 21.90}, {n: "Pizza Lombardia", p: 22.90},
-                {n: "Pizza Trentino", p: 22.90}, {n: "Pizza Liguria", p: 23.90},
-                {n: "Pizza Campania", p: 23.90}, {n: "Pizza Tchie Nos's", p: 23.90}
+                {n: "Pizza Esposito's", d: "Tomate, ail, câpres, origan", p: 16.90},
+                {n: "Pizza Sicilia", d: "Tomate, mozzarella, aubergine, parmesan, basilic", p: 16.90},
+                {n: "Pizza Calabria", d: "Tomate, mozzarella, chorizo, poivrons, oignons", p: 17.90},
+                {n: "Pizza Piemonte", d: "Tomate, mozzarella, pommes de terre, olives, persil", p: 17.90},
+                {n: "Pizza Puglia", d: "Tomate, mozzarella, brocoli, jambon à l'os, tomates séchées", p: 18.90},
+                {n: "Pizza Abbruzzo", d: "Tomate, mozzarella, thon, oignons, câpres, anchois", p: 18.90},
+                {n: "Pizza Toscana", d: "Tomate, mozzarella, légumes de saison", p: 19.90},
+                {n: "Pizza Umbria", d: "Tomate, mozzarella, champignons, saucisse d'Ajoie", p: 19.90},
+                {n: "Pizza Lazio", d: "Tomate, mozzarella, lard du Noirmont, poivrons, miel", p: 20.90},
+                {n: "Pizza Tutti al Mare!", d: "Tomate, mozzarella, crevettes, salade, sauce", p: 21.90},
+                {n: "Pizza Emilia Romagna", d: "Tomate, mozzarella, hachis de bœuf, oignons, épices", p: 21.90},
+                {n: "Pizza Lombardia", d: "Tomate, mozzarella, chevrette de Movelier, champignons", p: 22.90},
+                {n: "Pizza Trentino", d: "Tomate, mozzarella, lard, pavé du Père Joseph", p: 22.90},
+                {n: "Pizza Liguria", d: "Tomate, mortadelle, pesto, pistaches, burrata", p: 23.90},
+                {n: "Pizza Campania", d: "Tomate, mozzarella, crème fraîche, jambon cru, roquette", p: 23.90},
+                {n: "Pizza Tchie Nos's", d: "Tomate, mozzarella, tête de moine, Rêve du Jura, gruyère", p: 23.90}
             ],
             pates: [
-                {n: "Pâtes Ail et pesto", p: 15.90}, {n: "Pâtes Sauce tomate", p: 13.90},
-                {n: "Pâtes Arrabiata", p: 15.90}, {n: "Pâtes Carbonara", p: 16.90},
-                {n: "Pâtes Bolognaise", p: 16.90}, {n: "Lasagnes au bœuf", p: 17.90},
-                {n: "Lasagnes aux légumes", p: 16.90}
+                {n: "Pâtes Ail et pesto", d: "Pâtes fraîches sauce ail et pesto maison", p: 15.90},
+                {n: "Pâtes Sauce tomate", d: "Pâtes fraîches sauce tomate basilic", p: 13.90},
+                {n: "Pâtes Arrabiata", d: "Pâtes fraîches sauce tomate pimentée", p: 15.90},
+                {n: "Pâtes Carbonara", d: "Pâtes fraîches, lardons, œuf, parmesan", p: 16.90},
+                {n: "Pâtes Bolognaise", d: "Pâtes fraîches sauce bolognaise maison", p: 16.90},
+                {n: "Lasagnes au bœuf", d: "Lasagnes maison au bœuf et béchamel", p: 17.90},
+                {n: "Lasagnes aux légumes", d: "Lasagnes maison aux légumes de saison", p: 16.90}
             ],
             salades: [
-                {n: "Salade verte", p: 6.00}, {n: "Salade mêlée", p: 8.00},
-                {n: "Grande mêlée", p: 16.00}, {n: "Petite Caprese", p: 10.00},
-                {n: "Grande Caprese", p: 16.00}, {n: "Chef verte", p: 18.00},
-                {n: "Chèvre verte", p: 19.90}, {n: "Légumes de saison (P)", p: 8.00},
-                {n: "Légumes de saison (G)", p: 14.90}
+                {n: "Salade verte", d: "Mélange de salades vertes, vinaigrette maison", p: 6.00},
+                {n: "Salade mêlée", d: "Salade composée avec légumes frais", p: 8.00},
+                {n: "Grande mêlée", d: "Grande salade composée généreuse", p: 16.00},
+                {n: "Petite Caprese", d: "Tomates, mozzarella, basilic, huile d'olive", p: 10.00},
+                {n: "Grande Caprese", d: "Grande assiette Caprese", p: 16.00},
+                {n: "Chef verte", d: "Salade complète du chef avec garnitures", p: 18.00},
+                {n: "Chèvre verte", d: "Salade avec chèvre chaud, miel, noix", p: 19.90},
+                {n: "Légumes de saison (P)", d: "Assiette de légumes de saison grillés", p: 8.00},
+                {n: "Légumes de saison (G)", d: "Grande assiette de légumes de saison", p: 14.90}
             ],
             autres: [
-                {n: "Tranche panée de poulet", p: 18.00}, {n: "Roastbeef", p: 25.00},
-                {n: "Tartare de bœuf", p: 25.00}
+                {n: "Tranche panée de poulet", d: "Escalope de poulet panée avec garniture", p: 18.00},
+                {n: "Roastbeef", d: "Tranches de roastbeef, sauce, garniture", p: 25.00},
+                {n: "Tartare de bœuf", d: "Tartare de bœuf préparé maison, frites", p: 25.00}
             ],
             enfants: [
-                {n: "Bambini - Poulet pané", p: 12.90}, {n: "Bambini - Pâtes", p: 12.90}
+                {n: "Bambini - Poulet pané", d: "Tranche panée de poulet avec frites ou pâtes", p: 12.90},
+                {n: "Bambini - Pâtes", d: "Pâtes au choix: tomate, pesto, ou nature", p: 12.90}
             ]
         };
 
         var cart = {};
 
-        // Initialisation
+        // Générer le HTML au chargement
         function init() {
-            setupDateInput();
-            updateTimeOptions();
-        }
-
-        // Configuration de la date minimum (aujourd'hui)
-        function setupDateInput() {
-            var today = new Date();
-            var yyyy = today.getFullYear();
-            var mm = String(today.getMonth() + 1).padStart(2, '0');
-            var dd = String(today.getDate()).padStart(2, '0');
-            var dateStr = yyyy + '-' + mm + '-' + dd;
-
-            var dateInput = document.getElementById('delivery-date');
-            dateInput.min = dateStr;
-            dateInput.value = dateStr;
-        }
-
-        // Mettre à jour les options d'heure selon la date choisie
-        function updateTimeOptions() {
-            var dateInput = document.getElementById('delivery-date').value;
-            var timeSelect = document.getElementById('delivery-time');
-
-            if (!dateInput) return;
-
-            // Vider les options existantes
-            timeSelect.innerHTML = '<option value="">Choisir l'heure</option>';
-
-            var selectedDate = new Date(dateInput);
-            var now = new Date();
-            var isToday = selectedDate.toDateString() === now.toDateString();
-
-            // Heure minimum : maintenant + 45 minutes
-            var minTime = new Date(now.getTime() + 45 * 60000);
-
-            // Heures d'ouverture (à adapter selon vos horaires)
-            var startHour = 11; // 11h00
-            var endHour = 22;   // 22h00
-
-            // Si c'est aujourd'hui, commencer après l'heure minimum
-            if (isToday) {
-                startHour = Math.max(startHour, minTime.getHours());
-            }
-
-            // Générer les créneaux toutes les 15 minutes
-            for (var h = startHour; h < endHour; h++) {
-                for (var m = 0; m < 60; m += 15) {
-                    // Si c'est aujourd'hui et l'heure de début, vérifier les minutes
-                    if (isToday && h === minTime.getHours() && m < minTime.getMinutes()) {
-                        continue;
-                    }
-
-                    var timeStr = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');
-                    var option = document.createElement('option');
-                    option.value = timeStr;
-                    option.textContent = timeStr;
-                    timeSelect.appendChild(option);
+            for (var cat in menuData) {
+                var html = '';
+                var items = menuData[cat];
+                for (var i = 0; i < items.length; i++) {
+                    var it = items[i];
+                    var id = cat + '-' + i;
+                    html += '<div class="item">';
+                    html += '<h3>' + it.n + '</h3>';
+                    html += '<p>' + it.d + '</p>';
+                    html += '<div class="price">' + it.p.toFixed(2) + ' CHF</div>';
+                    html += '<div class="qty-control">';
+                    html += '<button onclick="updateQty(\'' + id + '\', -1)" disabled id="btn-min-' + id + '">-</button>';
+                    html += '<span id="qty-' + id + '">0</span>';
+                    html += '<button onclick="updateQty(\'' + id + '\', 1)" id="btn-plus-' + id + '">+</button>';
+                    html += '</div></div>';
                 }
+                document.getElementById(cat).innerHTML = html;
             }
+            initDate();
         }
 
         // Navigation
@@ -828,17 +253,18 @@
             document.getElementById('qty-' + id).textContent = cart[id];
             document.getElementById('btn-min-' + id).disabled = (cart[id] <= 0);
             document.getElementById('btn-plus-' + id).disabled = (cart[id] >= 10);
-            updateCart();
+
+            updateCartDisplay();
         }
 
-        function updateCart() {
+        function updateCartDisplay() {
             var total = 0, count = 0;
             for (var id in cart) {
                 if (cart[id] > 0) {
                     var parts = id.split('-');
                     var cat = parts[0];
                     var idx = parseInt(parts[1]);
-                    total += itemsData[cat][idx].p * cart[id];
+                    total += menuData[cat][idx].p * cart[id];
                     count += cart[id];
                 }
             }
@@ -847,61 +273,97 @@
             document.getElementById('order-btn').disabled = (count === 0);
         }
 
-        // Mode de livraison
-        function selectDeliveryMode(mode) {
+        // Mode livraison
+        function selectMode(mode) {
             document.getElementById('mode-' + mode).checked = true;
             onModeChange();
         }
 
         function onModeChange() {
             var isDelivery = document.getElementById('mode-delivery').checked;
-            var addressGroup = document.getElementById('address-group');
+            var isPickup = document.getElementById('mode-pickup').checked;
+            document.querySelectorAll('.radio-option')[0].classList.toggle('selected', isDelivery);
+            document.querySelectorAll('.radio-option')[1].classList.toggle('selected', isPickup);
+            document.getElementById('address-group').classList.toggle('hidden', !isDelivery);
+        }
 
-            // Mettre à jour le style visuel
-            var options = document.querySelectorAll('.radio-option');
-            options[0].classList.toggle('selected', isDelivery);
-            options[1].classList.toggle('selected', !isDelivery);
+        // Date et heure
+        function initDate() {
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('delivery-date').min = yyyy + '-' + mm + '-' + dd;
+            document.getElementById('delivery-date').value = yyyy + '-' + mm + '-' + dd;
+            updateTimes();
+        }
 
-            // Afficher/masquer l'adresse
-            if (isDelivery) {
-                addressGroup.classList.remove('hidden');
-                document.getElementById('address').required = true;
-            } else {
-                addressGroup.classList.add('hidden');
-                document.getElementById('address').required = false;
-                document.getElementById('address').value = '';
+        function updateTimes() {
+            var dateInput = document.getElementById('delivery-date').value;
+            var timeSelect = document.getElementById('delivery-time');
+            timeSelect.innerHTML = '<option value="">Choisir l\'heure</option>';
+
+            if (!dateInput) return;
+
+            var selectedDate = new Date(dateInput);
+            var now = new Date();
+            var isToday = selectedDate.toDateString() === now.toDateString();
+
+            var slots = [];
+
+            for (var h = 11; h <= 14; h++) {
+                for (var m = 0; m < 60; m += 15) {
+                    if (h === 11 && m < 30) continue;
+                    if (h === 14 && m > 0) break;
+                    slots.push({h: h, m: m});
+                }
+            }
+
+            for (var h = 18; h <= 21; h++) {
+                for (var m = 0; m < 60; m += 15) {
+                    if (h === 18 && m < 30) continue;
+                    if (h === 21 && m > 30) break;
+                    slots.push({h: h, m: m});
+                }
+            }
+
+            if (isToday) {
+                var minTime = new Date(now.getTime() + 45 * 60000);
+                slots = slots.filter(function(slot) {
+                    var slotTime = new Date();
+                    slotTime.setHours(slot.h, slot.m, 0, 0);
+                    return slotTime >= minTime;
+                });
+            }
+
+            for (var i = 0; i < slots.length; i++) {
+                var timeStr = String(slots[i].h).padStart(2, '0') + ':' + String(slots[i].m).padStart(2, '0');
+                var opt = document.createElement('option');
+                opt.value = timeStr;
+                opt.textContent = timeStr;
+                timeSelect.appendChild(opt);
             }
         }
 
-        // Modal commande
+        // Modal
         function openOrder() {
             var list = document.getElementById('order-list');
             var html = '';
             var total = 0;
-
             for (var id in cart) {
                 if (cart[id] > 0) {
                     var parts = id.split('-');
-                    var cat = parts[0];
-                    var idx = parseInt(parts[1]);
-                    var item = itemsData[cat][idx];
-                    var sub = item.p * cart[id];
+                    var it = menuData[parts[0]][parseInt(parts[1])];
+                    var sub = it.p * cart[id];
                     total += sub;
                     html += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #ddd;">';
-                    html += '<span>' + cart[id] + '× ' + item.n + '</span>';
+                    html += '<span>' + cart[id] + '× ' + it.n + '</span>';
                     html += '<span>' + sub.toFixed(2) + ' CHF</span></div>';
                 }
             }
             html += '<div style="font-weight:bold;color:#C41E3A;font-size:18px;margin-top:10px;padding-top:10px;border-top:2px solid #C41E3A;display:flex;justify-content:space-between;">';
             html += '<span>TOTAL</span><span>' + total.toFixed(2) + ' CHF</span></div>';
             list.innerHTML = html;
-
-            // Réinitialiser le modal
-            document.getElementById('mode-delivery').checked = false;
-            document.getElementById('mode-pickup').checked = false;
-            document.querySelectorAll('.radio-option').forEach(function(el) { el.classList.remove('selected'); });
-            document.getElementById('address-group').classList.remove('hidden');
-
             document.getElementById('orderModal').classList.add('show');
         }
 
@@ -909,7 +371,7 @@
             document.getElementById('orderModal').classList.remove('show');
         }
 
-        // Envoi commande
+        // Envoi
         function sendOrder() {
             var name = document.getElementById('name').value.trim();
             var phone = document.getElementById('phone').value.trim();
@@ -920,67 +382,38 @@
             var time = document.getElementById('delivery-time').value;
             var notes = document.getElementById('notes').value.trim();
 
-            // Validation
-            if (!name || !phone) {
-                alert('Veuillez remplir le nom et le téléphone');
-                return;
-            }
-            if (!isDelivery && !isPickup) {
-                alert('Veuillez choisir le mode de réception (Livraison ou À emporter)');
-                return;
-            }
-            if (isDelivery && !address) {
-                alert('Veuillez indiquer l'adresse de livraison');
-                return;
-            }
-            if (!date || !time) {
-                alert('Veuillez choisir la date et l'heure');
-                return;
-            }
+            if (!name || !phone) { alert('Veuillez remplir le nom et téléphone'); return; }
+            if (!isDelivery && !isPickup) { alert('Veuillez choisir le mode de réception'); return; }
+            if (isDelivery && !address) { alert('Veuillez indiquer l\'adresse'); return; }
+            if (!date || !time) { alert('Veuillez choisir la date et l\'heure'); return; }
 
-            // Construire le message WhatsApp
             var msg = '🍕 *NOUVELLE COMMANDE TCHIE NOS* %0A%0A';
             msg += '👤 *Client:* ' + encodeURIComponent(name) + '%0A';
             msg += '📞 *Téléphone:* ' + encodeURIComponent(phone) + '%0A';
-
-            if (isDelivery) {
-                msg += '🛵 *Livraison*%0A';
-                msg += '📍 *Adresse:* ' + encodeURIComponent(address) + '%0A';
-            } else {
-                msg += '🛍️ *À emporter*%0A';
-            }
-
-            msg += '📅 *Date:* ' + date + '%0A';
-            msg += '🕐 *Heure:* ' + time + '%0A%0A';
-            msg += '*Commande:*%0A';
+            msg += isDelivery ? '🛵 *Livraison*%0A📍 *Adresse:* ' + encodeURIComponent(address) + '%0A' : '🛍️ *À emporter*%0A';
+            msg += '📅 *Date:* ' + date + '%0A🕐 *Heure:* ' + time + '%0A%0A*Commande:*%0A';
 
             var total = 0;
             for (var id in cart) {
                 if (cart[id] > 0) {
                     var parts = id.split('-');
-                    var cat = parts[0];
-                    var idx = parseInt(parts[1]);
-                    var item = itemsData[cat][idx];
-                    total += item.p * cart[id];
-                    msg += '• ' + cart[id] + '× ' + item.n + ' - ' + item.p.toFixed(2) + ' CHF%0A';
+                    var it = menuData[parts[0]][parseInt(parts[1])];
+                    total += it.p * cart[id];
+                    msg += '• ' + cart[id] + '× ' + it.n + ' - ' + it.p.toFixed(2) + ' CHF%0A';
                 }
             }
-
             msg += '%0A💰 *TOTAL: ' + total.toFixed(2) + ' CHF*';
             if (notes) msg += '%0A%0A📝 *Commentaires:* ' + encodeURIComponent(notes);
             msg += '%0A%0A_Paiement à la livraison_';
 
             window.open('https://wa.me/41779431480?text=' + msg, '_blank');
 
-            // Reset
             cart = {};
-            document.querySelectorAll('[id^="qty-"]').forEach(function(el) { el.textContent = '0'; });
-            document.querySelectorAll('[id^="btn-min-"]').forEach(function(el) { el.disabled = true; });
-            document.querySelectorAll('[id^="btn-plus-"]').forEach(function(el) { el.disabled = false; });
-            updateCart();
+            document.querySelectorAll('.qty-control span').forEach(function(el) { el.textContent = '0'; });
+            document.querySelectorAll('.qty-control button:first-child').forEach(function(el) { el.disabled = true; });
+            document.querySelectorAll('.qty-control button:last-child').forEach(function(el) { el.disabled = false; });
+            updateCartDisplay();
             closeOrder();
-
-            // Reset form
             document.getElementById('name').value = '';
             document.getElementById('phone').value = '';
             document.getElementById('address').value = '';
@@ -989,11 +422,9 @@
             document.getElementById('mode-pickup').checked = false;
             document.querySelectorAll('.radio-option').forEach(function(el) { el.classList.remove('selected'); });
             document.getElementById('address-group').classList.remove('hidden');
-            setupDateInput();
-            updateTimeOptions();
+            initDate();
         }
 
-        // Démarrer
         init();
     </script>
 </body>
