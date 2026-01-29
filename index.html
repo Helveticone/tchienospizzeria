@@ -23,10 +23,24 @@
         .badge { display: inline-block; background: #FFD700; color: #1E3A5F; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: bold; margin: 2px; }
 
         .nav { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: white; position: sticky; top: 155px; z-index: 99; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .nav a { flex-shrink: 0; padding: 12px 20px; border: 2px solid #C41E3A; background: white; color: #C41E3A; border-radius: 25px; font-weight: bold; text-decoration: none; font-size: 14px; }
-        .nav a:hover { background: #C41E3A; color: white; }
+        .nav button { 
+            flex-shrink: 0; 
+            padding: 12px 20px; 
+            border: 2px solid #C41E3A; 
+            background: white; 
+            color: #C41E3A; 
+            border-radius: 25px; 
+            font-weight: bold; 
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .nav button:hover, .nav button.active { background: #C41E3A; color: white; }
 
         .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        .category { display: none; }
+        .category.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         h2 { color: #1E3A5F; margin: 30px 0 15px 0; padding-bottom: 10px; border-bottom: 3px solid #FFD700; }
         h2:first-child { margin-top: 0; }
@@ -60,10 +74,7 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .qty-control button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
+        .qty-control button:disabled { background: #ccc; cursor: not-allowed; }
         .qty-control span {
             font-weight: bold;
             min-width: 30px;
@@ -149,423 +160,425 @@
     </div>
 
     <div class="nav">
-        <a href="#pizzas">🍕 Pizzas</a>
-        <a href="#pates">🍝 Pâtes</a>
-        <a href="#salades">🥗 Salades</a>
-        <a href="#autres">🍖 Grillades</a>
-        <a href="#enfants">👶 Bambinis</a>
+        <button class="active" onclick="showCategory('pizzas', this)">🍕 Pizzas</button>
+        <button onclick="showCategory('pates', this)">🍝 Pâtes</button>
+        <button onclick="showCategory('salades', this)">🥗 Salades</button>
+        <button onclick="showCategory('autres', this)">🍖 Grillades</button>
+        <button onclick="showCategory('enfants', this)">👶 Bambinis</button>
     </div>
 
     <div class="container">
-        <h2 id="pizzas">🍕 Pizzas</h2>
+        <div id="pizzas" class="category active">
+            <h2>🍕 Pizzas</h2>
 
-        <div class="item">
-            <h3>Pizza Esposito's</h3>
-            <p>Tomate, ail, câpres, origan</p>
-            <div class="price">16.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-0', -1)" disabled id="btn-min-pizza-0">-</button>
-                <span id="qty-pizza-0">0</span>
-                <button onclick="updateQty('pizza-0', 1)" id="btn-plus-pizza-0">+</button>
+            <div class="item">
+                <h3>Pizza Esposito's</h3>
+                <p>Tomate, ail, câpres, origan</p>
+                <div class="price">16.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-0', -1)" disabled id="btn-min-pizza-0">-</button>
+                    <span id="qty-pizza-0">0</span>
+                    <button onclick="updateQty('pizza-0', 1)" id="btn-plus-pizza-0">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Sicilia</h3>
-            <p>Tomate, mozzarella, aubergine, parmesan, basilic</p>
-            <div class="price">16.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-1', -1)" disabled id="btn-min-pizza-1">-</button>
-                <span id="qty-pizza-1">0</span>
-                <button onclick="updateQty('pizza-1', 1)" id="btn-plus-pizza-1">+</button>
+            <div class="item">
+                <h3>Pizza Sicilia</h3>
+                <p>Tomate, mozzarella, aubergine, parmesan, basilic</p>
+                <div class="price">16.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-1', -1)" disabled id="btn-min-pizza-1">-</button>
+                    <span id="qty-pizza-1">0</span>
+                    <button onclick="updateQty('pizza-1', 1)" id="btn-plus-pizza-1">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Calabria</h3>
-            <p>Tomate, mozzarella, chorizo, poivrons, oignons</p>
-            <div class="price">17.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-2', -1)" disabled id="btn-min-pizza-2">-</button>
-                <span id="qty-pizza-2">0</span>
-                <button onclick="updateQty('pizza-2', 1)" id="btn-plus-pizza-2">+</button>
+            <div class="item">
+                <h3>Pizza Calabria</h3>
+                <p>Tomate, mozzarella, chorizo, poivrons, oignons</p>
+                <div class="price">17.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-2', -1)" disabled id="btn-min-pizza-2">-</button>
+                    <span id="qty-pizza-2">0</span>
+                    <button onclick="updateQty('pizza-2', 1)" id="btn-plus-pizza-2">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Piemonte</h3>
-            <p>Tomate, mozzarella, pommes de terre, olives, persil</p>
-            <div class="price">17.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-3', -1)" disabled id="btn-min-pizza-3">-</button>
-                <span id="qty-pizza-3">0</span>
-                <button onclick="updateQty('pizza-3', 1)" id="btn-plus-pizza-3">+</button>
+            <div class="item">
+                <h3>Pizza Piemonte</h3>
+                <p>Tomate, mozzarella, pommes de terre, olives, persil</p>
+                <div class="price">17.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-3', -1)" disabled id="btn-min-pizza-3">-</button>
+                    <span id="qty-pizza-3">0</span>
+                    <button onclick="updateQty('pizza-3', 1)" id="btn-plus-pizza-3">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Puglia</h3>
-            <p>Tomate, mozzarella, brocoli, jambon à l'os, tomates séchées</p>
-            <div class="price">18.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-4', -1)" disabled id="btn-min-pizza-4">-</button>
-                <span id="qty-pizza-4">0</span>
-                <button onclick="updateQty('pizza-4', 1)" id="btn-plus-pizza-4">+</button>
+            <div class="item">
+                <h3>Pizza Puglia</h3>
+                <p>Tomate, mozzarella, brocoli, jambon à l'os, tomates séchées</p>
+                <div class="price">18.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-4', -1)" disabled id="btn-min-pizza-4">-</button>
+                    <span id="qty-pizza-4">0</span>
+                    <button onclick="updateQty('pizza-4', 1)" id="btn-plus-pizza-4">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Abbruzzo</h3>
-            <p>Tomate, mozzarella, thon, oignons, câpres, anchois</p>
-            <div class="price">18.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-5', -1)" disabled id="btn-min-pizza-5">-</button>
-                <span id="qty-pizza-5">0</span>
-                <button onclick="updateQty('pizza-5', 1)" id="btn-plus-pizza-5">+</button>
+            <div class="item">
+                <h3>Pizza Abbruzzo</h3>
+                <p>Tomate, mozzarella, thon, oignons, câpres, anchois</p>
+                <div class="price">18.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-5', -1)" disabled id="btn-min-pizza-5">-</button>
+                    <span id="qty-pizza-5">0</span>
+                    <button onclick="updateQty('pizza-5', 1)" id="btn-plus-pizza-5">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Toscana</h3>
-            <p>Tomate, mozzarella, légumes de saison</p>
-            <div class="price">19.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-6', -1)" disabled id="btn-min-pizza-6">-</button>
-                <span id="qty-pizza-6">0</span>
-                <button onclick="updateQty('pizza-6', 1)" id="btn-plus-pizza-6">+</button>
+            <div class="item">
+                <h3>Pizza Toscana</h3>
+                <p>Tomate, mozzarella, légumes de saison</p>
+                <div class="price">19.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-6', -1)" disabled id="btn-min-pizza-6">-</button>
+                    <span id="qty-pizza-6">0</span>
+                    <button onclick="updateQty('pizza-6', 1)" id="btn-plus-pizza-6">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Umbria</h3>
-            <p>Tomate, mozzarella, champignons, saucisse d'Ajoie</p>
-            <div class="price">19.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-7', -1)" disabled id="btn-min-pizza-7">-</button>
-                <span id="qty-pizza-7">0</span>
-                <button onclick="updateQty('pizza-7', 1)" id="btn-plus-pizza-7">+</button>
+            <div class="item">
+                <h3>Pizza Umbria</h3>
+                <p>Tomate, mozzarella, champignons, saucisse d'Ajoie</p>
+                <div class="price">19.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-7', -1)" disabled id="btn-min-pizza-7">-</button>
+                    <span id="qty-pizza-7">0</span>
+                    <button onclick="updateQty('pizza-7', 1)" id="btn-plus-pizza-7">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Lazio</h3>
-            <p>Tomate, mozzarella, lard du Noirmont, poivrons, miel</p>
-            <div class="price">20.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-8', -1)" disabled id="btn-min-pizza-8">-</button>
-                <span id="qty-pizza-8">0</span>
-                <button onclick="updateQty('pizza-8', 1)" id="btn-plus-pizza-8">+</button>
+            <div class="item">
+                <h3>Pizza Lazio</h3>
+                <p>Tomate, mozzarella, lard du Noirmont, poivrons, miel</p>
+                <div class="price">20.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-8', -1)" disabled id="btn-min-pizza-8">-</button>
+                    <span id="qty-pizza-8">0</span>
+                    <button onclick="updateQty('pizza-8', 1)" id="btn-plus-pizza-8">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Tutti al Mare!</h3>
-            <p>Tomate, mozzarella, crevettes, salade, sauce</p>
-            <div class="price">21.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-9', -1)" disabled id="btn-min-pizza-9">-</button>
-                <span id="qty-pizza-9">0</span>
-                <button onclick="updateQty('pizza-9', 1)" id="btn-plus-pizza-9">+</button>
+            <div class="item">
+                <h3>Pizza Tutti al Mare!</h3>
+                <p>Tomate, mozzarella, crevettes, salade, sauce</p>
+                <div class="price">21.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-9', -1)" disabled id="btn-min-pizza-9">-</button>
+                    <span id="qty-pizza-9">0</span>
+                    <button onclick="updateQty('pizza-9', 1)" id="btn-plus-pizza-9">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Emilia Romagna</h3>
-            <p>Tomate, mozzarella, hachis de bœuf, oignons, épices</p>
-            <div class="price">21.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-10', -1)" disabled id="btn-min-pizza-10">-</button>
-                <span id="qty-pizza-10">0</span>
-                <button onclick="updateQty('pizza-10', 1)" id="btn-plus-pizza-10">+</button>
+            <div class="item">
+                <h3>Pizza Emilia Romagna</h3>
+                <p>Tomate, mozzarella, hachis de bœuf, oignons, épices</p>
+                <div class="price">21.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-10', -1)" disabled id="btn-min-pizza-10">-</button>
+                    <span id="qty-pizza-10">0</span>
+                    <button onclick="updateQty('pizza-10', 1)" id="btn-plus-pizza-10">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Lombardia</h3>
-            <p>Tomate, mozzarella, chevrette de Movelier, champignons</p>
-            <div class="price">22.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-11', -1)" disabled id="btn-min-pizza-11">-</button>
-                <span id="qty-pizza-11">0</span>
-                <button onclick="updateQty('pizza-11', 1)" id="btn-plus-pizza-11">+</button>
+            <div class="item">
+                <h3>Pizza Lombardia</h3>
+                <p>Tomate, mozzarella, chevrette de Movelier, champignons</p>
+                <div class="price">22.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-11', -1)" disabled id="btn-min-pizza-11">-</button>
+                    <span id="qty-pizza-11">0</span>
+                    <button onclick="updateQty('pizza-11', 1)" id="btn-plus-pizza-11">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Trentino</h3>
-            <p>Tomate, mozzarella, lard, pavé du Père Joseph</p>
-            <div class="price">22.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-12', -1)" disabled id="btn-min-pizza-12">-</button>
-                <span id="qty-pizza-12">0</span>
-                <button onclick="updateQty('pizza-12', 1)" id="btn-plus-pizza-12">+</button>
+            <div class="item">
+                <h3>Pizza Trentino</h3>
+                <p>Tomate, mozzarella, lard, pavé du Père Joseph</p>
+                <div class="price">22.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-12', -1)" disabled id="btn-min-pizza-12">-</button>
+                    <span id="qty-pizza-12">0</span>
+                    <button onclick="updateQty('pizza-12', 1)" id="btn-plus-pizza-12">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Liguria</h3>
-            <p>Tomate, mortadelle, pesto, pistaches, burrata</p>
-            <div class="price">23.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-13', -1)" disabled id="btn-min-pizza-13">-</button>
-                <span id="qty-pizza-13">0</span>
-                <button onclick="updateQty('pizza-13', 1)" id="btn-plus-pizza-13">+</button>
+            <div class="item">
+                <h3>Pizza Liguria</h3>
+                <p>Tomate, mortadelle, pesto, pistaches, burrata</p>
+                <div class="price">23.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-13', -1)" disabled id="btn-min-pizza-13">-</button>
+                    <span id="qty-pizza-13">0</span>
+                    <button onclick="updateQty('pizza-13', 1)" id="btn-plus-pizza-13">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Campania</h3>
-            <p>Tomate, mozzarella, crème fraîche, jambon cru, roquette</p>
-            <div class="price">23.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-14', -1)" disabled id="btn-min-pizza-14">-</button>
-                <span id="qty-pizza-14">0</span>
-                <button onclick="updateQty('pizza-14', 1)" id="btn-plus-pizza-14">+</button>
+            <div class="item">
+                <h3>Pizza Campania</h3>
+                <p>Tomate, mozzarella, crème fraîche, jambon cru, roquette</p>
+                <div class="price">23.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-14', -1)" disabled id="btn-min-pizza-14">-</button>
+                    <span id="qty-pizza-14">0</span>
+                    <button onclick="updateQty('pizza-14', 1)" id="btn-plus-pizza-14">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pizza Tchie Nos's</h3>
-            <p>Tomate, mozzarella, tête de moine, Rêve du Jura, gruyère</p>
-            <div class="price">23.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pizza-15', -1)" disabled id="btn-min-pizza-15">-</button>
-                <span id="qty-pizza-15">0</span>
-                <button onclick="updateQty('pizza-15', 1)" id="btn-plus-pizza-15">+</button>
+            <div class="item">
+                <h3>Pizza Tchie Nos's</h3>
+                <p>Tomate, mozzarella, tête de moine, Rêve du Jura, gruyère</p>
+                <div class="price">23.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pizza-15', -1)" disabled id="btn-min-pizza-15">-</button>
+                    <span id="qty-pizza-15">0</span>
+                    <button onclick="updateQty('pizza-15', 1)" id="btn-plus-pizza-15">+</button>
+                </div>
             </div>
-        </div>
-<h2 id="pates">🍝 Pâtes</h2>
-        <div class="item">
-            <h3>Pâtes Ail et pesto</h3>
-            <p>Pâtes fraîches sauce ail et pesto maison</p>
-            <div class="price">15.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pate-0', -1)" disabled id="btn-min-pate-0">-</button>
-                <span id="qty-pate-0">0</span>
-                <button onclick="updateQty('pate-0', 1)" id="btn-plus-pate-0">+</button>
+</div><div id="pates" class="category"><h2>🍝 Pâtes</h2>
+            <div class="item">
+                <h3>Pâtes Ail et pesto</h3>
+                <p>Pâtes fraîches sauce ail et pesto maison</p>
+                <div class="price">15.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pate-0', -1)" disabled id="btn-min-pate-0">-</button>
+                    <span id="qty-pate-0">0</span>
+                    <button onclick="updateQty('pate-0', 1)" id="btn-plus-pate-0">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pâtes Sauce tomate</h3>
-            <p>Pâtes fraîches sauce tomate basilic</p>
-            <div class="price">13.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pate-1', -1)" disabled id="btn-min-pate-1">-</button>
-                <span id="qty-pate-1">0</span>
-                <button onclick="updateQty('pate-1', 1)" id="btn-plus-pate-1">+</button>
+            <div class="item">
+                <h3>Pâtes Sauce tomate</h3>
+                <p>Pâtes fraîches sauce tomate basilic</p>
+                <div class="price">13.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pate-1', -1)" disabled id="btn-min-pate-1">-</button>
+                    <span id="qty-pate-1">0</span>
+                    <button onclick="updateQty('pate-1', 1)" id="btn-plus-pate-1">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pâtes Arrabiata</h3>
-            <p>Pâtes fraîches sauce tomate pimentée</p>
-            <div class="price">15.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pate-2', -1)" disabled id="btn-min-pate-2">-</button>
-                <span id="qty-pate-2">0</span>
-                <button onclick="updateQty('pate-2', 1)" id="btn-plus-pate-2">+</button>
+            <div class="item">
+                <h3>Pâtes Arrabiata</h3>
+                <p>Pâtes fraîches sauce tomate pimentée</p>
+                <div class="price">15.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pate-2', -1)" disabled id="btn-min-pate-2">-</button>
+                    <span id="qty-pate-2">0</span>
+                    <button onclick="updateQty('pate-2', 1)" id="btn-plus-pate-2">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pâtes Carbonara</h3>
-            <p>Pâtes fraîches, lardons, œuf, parmesan</p>
-            <div class="price">16.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pate-3', -1)" disabled id="btn-min-pate-3">-</button>
-                <span id="qty-pate-3">0</span>
-                <button onclick="updateQty('pate-3', 1)" id="btn-plus-pate-3">+</button>
+            <div class="item">
+                <h3>Pâtes Carbonara</h3>
+                <p>Pâtes fraîches, lardons, œuf, parmesan</p>
+                <div class="price">16.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pate-3', -1)" disabled id="btn-min-pate-3">-</button>
+                    <span id="qty-pate-3">0</span>
+                    <button onclick="updateQty('pate-3', 1)" id="btn-plus-pate-3">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Pâtes Bolognaise</h3>
-            <p>Pâtes fraîches sauce bolognaise maison</p>
-            <div class="price">16.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pate-4', -1)" disabled id="btn-min-pate-4">-</button>
-                <span id="qty-pate-4">0</span>
-                <button onclick="updateQty('pate-4', 1)" id="btn-plus-pate-4">+</button>
+            <div class="item">
+                <h3>Pâtes Bolognaise</h3>
+                <p>Pâtes fraîches sauce bolognaise maison</p>
+                <div class="price">16.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pate-4', -1)" disabled id="btn-min-pate-4">-</button>
+                    <span id="qty-pate-4">0</span>
+                    <button onclick="updateQty('pate-4', 1)" id="btn-plus-pate-4">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Lasagnes au bœuf</h3>
-            <p>Lasagnes maison au bœuf et béchamel</p>
-            <div class="price">17.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pate-5', -1)" disabled id="btn-min-pate-5">-</button>
-                <span id="qty-pate-5">0</span>
-                <button onclick="updateQty('pate-5', 1)" id="btn-plus-pate-5">+</button>
+            <div class="item">
+                <h3>Lasagnes au bœuf</h3>
+                <p>Lasagnes maison au bœuf et béchamel</p>
+                <div class="price">17.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pate-5', -1)" disabled id="btn-min-pate-5">-</button>
+                    <span id="qty-pate-5">0</span>
+                    <button onclick="updateQty('pate-5', 1)" id="btn-plus-pate-5">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Lasagnes aux légumes</h3>
-            <p>Lasagnes maison aux légumes de saison</p>
-            <div class="price">16.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('pate-6', -1)" disabled id="btn-min-pate-6">-</button>
-                <span id="qty-pate-6">0</span>
-                <button onclick="updateQty('pate-6', 1)" id="btn-plus-pate-6">+</button>
+            <div class="item">
+                <h3>Lasagnes aux légumes</h3>
+                <p>Lasagnes maison aux légumes de saison</p>
+                <div class="price">16.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('pate-6', -1)" disabled id="btn-min-pate-6">-</button>
+                    <span id="qty-pate-6">0</span>
+                    <button onclick="updateQty('pate-6', 1)" id="btn-plus-pate-6">+</button>
+                </div>
             </div>
-        </div>
-<h2 id="salades">🥗 Salades</h2>
-        <div class="item">
-            <h3>Salade verte</h3>
-            <p>Mélange de salades vertes, vinaigrette maison</p>
-            <div class="price">6.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-0', -1)" disabled id="btn-min-salade-0">-</button>
-                <span id="qty-salade-0">0</span>
-                <button onclick="updateQty('salade-0', 1)" id="btn-plus-salade-0">+</button>
+</div><div id="salades" class="category"><h2>🥗 Salades</h2>
+            <div class="item">
+                <h3>Salade verte</h3>
+                <p>Mélange de salades vertes, vinaigrette maison</p>
+                <div class="price">6.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-0', -1)" disabled id="btn-min-salade-0">-</button>
+                    <span id="qty-salade-0">0</span>
+                    <button onclick="updateQty('salade-0', 1)" id="btn-plus-salade-0">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Salade mêlée</h3>
-            <p>Salade composée avec légumes frais</p>
-            <div class="price">8.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-1', -1)" disabled id="btn-min-salade-1">-</button>
-                <span id="qty-salade-1">0</span>
-                <button onclick="updateQty('salade-1', 1)" id="btn-plus-salade-1">+</button>
+            <div class="item">
+                <h3>Salade mêlée</h3>
+                <p>Salade composée avec légumes frais</p>
+                <div class="price">8.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-1', -1)" disabled id="btn-min-salade-1">-</button>
+                    <span id="qty-salade-1">0</span>
+                    <button onclick="updateQty('salade-1', 1)" id="btn-plus-salade-1">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Grande mêlée</h3>
-            <p>Grande salade composée généreuse</p>
-            <div class="price">16.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-2', -1)" disabled id="btn-min-salade-2">-</button>
-                <span id="qty-salade-2">0</span>
-                <button onclick="updateQty('salade-2', 1)" id="btn-plus-salade-2">+</button>
+            <div class="item">
+                <h3>Grande mêlée</h3>
+                <p>Grande salade composée généreuse</p>
+                <div class="price">16.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-2', -1)" disabled id="btn-min-salade-2">-</button>
+                    <span id="qty-salade-2">0</span>
+                    <button onclick="updateQty('salade-2', 1)" id="btn-plus-salade-2">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Petite Caprese</h3>
-            <p>Tomates, mozzarella, basilic, huile d'olive</p>
-            <div class="price">10.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-3', -1)" disabled id="btn-min-salade-3">-</button>
-                <span id="qty-salade-3">0</span>
-                <button onclick="updateQty('salade-3', 1)" id="btn-plus-salade-3">+</button>
+            <div class="item">
+                <h3>Petite Caprese</h3>
+                <p>Tomates, mozzarella, basilic, huile d'olive</p>
+                <div class="price">10.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-3', -1)" disabled id="btn-min-salade-3">-</button>
+                    <span id="qty-salade-3">0</span>
+                    <button onclick="updateQty('salade-3', 1)" id="btn-plus-salade-3">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Grande Caprese</h3>
-            <p>Grande assiette Caprese</p>
-            <div class="price">16.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-4', -1)" disabled id="btn-min-salade-4">-</button>
-                <span id="qty-salade-4">0</span>
-                <button onclick="updateQty('salade-4', 1)" id="btn-plus-salade-4">+</button>
+            <div class="item">
+                <h3>Grande Caprese</h3>
+                <p>Grande assiette Caprese</p>
+                <div class="price">16.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-4', -1)" disabled id="btn-min-salade-4">-</button>
+                    <span id="qty-salade-4">0</span>
+                    <button onclick="updateQty('salade-4', 1)" id="btn-plus-salade-4">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Chef verte</h3>
-            <p>Salade complète du chef avec garnitures</p>
-            <div class="price">18.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-5', -1)" disabled id="btn-min-salade-5">-</button>
-                <span id="qty-salade-5">0</span>
-                <button onclick="updateQty('salade-5', 1)" id="btn-plus-salade-5">+</button>
+            <div class="item">
+                <h3>Chef verte</h3>
+                <p>Salade complète du chef avec garnitures</p>
+                <div class="price">18.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-5', -1)" disabled id="btn-min-salade-5">-</button>
+                    <span id="qty-salade-5">0</span>
+                    <button onclick="updateQty('salade-5', 1)" id="btn-plus-salade-5">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Chèvre verte</h3>
-            <p>Salade avec chèvre chaud, miel, noix</p>
-            <div class="price">19.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-6', -1)" disabled id="btn-min-salade-6">-</button>
-                <span id="qty-salade-6">0</span>
-                <button onclick="updateQty('salade-6', 1)" id="btn-plus-salade-6">+</button>
+            <div class="item">
+                <h3>Chèvre verte</h3>
+                <p>Salade avec chèvre chaud, miel, noix</p>
+                <div class="price">19.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-6', -1)" disabled id="btn-min-salade-6">-</button>
+                    <span id="qty-salade-6">0</span>
+                    <button onclick="updateQty('salade-6', 1)" id="btn-plus-salade-6">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Légumes de saison (P)</h3>
-            <p>Assiette de légumes de saison grillés</p>
-            <div class="price">8.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-7', -1)" disabled id="btn-min-salade-7">-</button>
-                <span id="qty-salade-7">0</span>
-                <button onclick="updateQty('salade-7', 1)" id="btn-plus-salade-7">+</button>
+            <div class="item">
+                <h3>Légumes de saison (P)</h3>
+                <p>Assiette de légumes de saison grillés</p>
+                <div class="price">8.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-7', -1)" disabled id="btn-min-salade-7">-</button>
+                    <span id="qty-salade-7">0</span>
+                    <button onclick="updateQty('salade-7', 1)" id="btn-plus-salade-7">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Légumes de saison (G)</h3>
-            <p>Grande assiette de légumes de saison</p>
-            <div class="price">14.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('salade-8', -1)" disabled id="btn-min-salade-8">-</button>
-                <span id="qty-salade-8">0</span>
-                <button onclick="updateQty('salade-8', 1)" id="btn-plus-salade-8">+</button>
+            <div class="item">
+                <h3>Légumes de saison (G)</h3>
+                <p>Grande assiette de légumes de saison</p>
+                <div class="price">14.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('salade-8', -1)" disabled id="btn-min-salade-8">-</button>
+                    <span id="qty-salade-8">0</span>
+                    <button onclick="updateQty('salade-8', 1)" id="btn-plus-salade-8">+</button>
+                </div>
             </div>
-        </div>
-<h2 id="autres">🍖 Grillades</h2>
-        <div class="item">
-            <h3>Tranche panée de poulet</h3>
-            <p>Escalope de poulet panée avec garniture</p>
-            <div class="price">18.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('autre-0', -1)" disabled id="btn-min-autre-0">-</button>
-                <span id="qty-autre-0">0</span>
-                <button onclick="updateQty('autre-0', 1)" id="btn-plus-autre-0">+</button>
+</div><div id="autres" class="category"><h2>🍖 Grillades</h2>
+            <div class="item">
+                <h3>Tranche panée de poulet</h3>
+                <p>Escalope de poulet panée avec garniture</p>
+                <div class="price">18.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('autre-0', -1)" disabled id="btn-min-autre-0">-</button>
+                    <span id="qty-autre-0">0</span>
+                    <button onclick="updateQty('autre-0', 1)" id="btn-plus-autre-0">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Roastbeef</h3>
-            <p>Tranches de roastbeef, sauce, garniture</p>
-            <div class="price">25.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('autre-1', -1)" disabled id="btn-min-autre-1">-</button>
-                <span id="qty-autre-1">0</span>
-                <button onclick="updateQty('autre-1', 1)" id="btn-plus-autre-1">+</button>
+            <div class="item">
+                <h3>Roastbeef</h3>
+                <p>Tranches de roastbeef, sauce, garniture</p>
+                <div class="price">25.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('autre-1', -1)" disabled id="btn-min-autre-1">-</button>
+                    <span id="qty-autre-1">0</span>
+                    <button onclick="updateQty('autre-1', 1)" id="btn-plus-autre-1">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Tartare de bœuf</h3>
-            <p>Tartare de bœuf préparé maison, frites</p>
-            <div class="price">25.00 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('autre-2', -1)" disabled id="btn-min-autre-2">-</button>
-                <span id="qty-autre-2">0</span>
-                <button onclick="updateQty('autre-2', 1)" id="btn-plus-autre-2">+</button>
+            <div class="item">
+                <h3>Tartare de bœuf</h3>
+                <p>Tartare de bœuf préparé maison, frites</p>
+                <div class="price">25.00 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('autre-2', -1)" disabled id="btn-min-autre-2">-</button>
+                    <span id="qty-autre-2">0</span>
+                    <button onclick="updateQty('autre-2', 1)" id="btn-plus-autre-2">+</button>
+                </div>
             </div>
-        </div>
-<h2 id="enfants">👶 Bambinis</h2>
-        <div class="item">
-            <h3>Bambini - Poulet pané</h3>
-            <p>Tranche panée de poulet avec frites ou pâtes</p>
-            <div class="price">12.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('enfant-0', -1)" disabled id="btn-min-enfant-0">-</button>
-                <span id="qty-enfant-0">0</span>
-                <button onclick="updateQty('enfant-0', 1)" id="btn-plus-enfant-0">+</button>
+</div><div id="enfants" class="category"><h2>👶 Bambinis</h2>
+            <div class="item">
+                <h3>Bambini - Poulet pané</h3>
+                <p>Tranche panée de poulet avec frites ou pâtes</p>
+                <div class="price">12.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('enfant-0', -1)" disabled id="btn-min-enfant-0">-</button>
+                    <span id="qty-enfant-0">0</span>
+                    <button onclick="updateQty('enfant-0', 1)" id="btn-plus-enfant-0">+</button>
+                </div>
             </div>
-        </div>
 
-        <div class="item">
-            <h3>Bambini - Pâtes</h3>
-            <p>Pâtes au choix: tomate, pesto, ou nature</p>
-            <div class="price">12.90 CHF</div>
-            <div class="qty-control">
-                <button onclick="updateQty('enfant-1', -1)" disabled id="btn-min-enfant-1">-</button>
-                <span id="qty-enfant-1">0</span>
-                <button onclick="updateQty('enfant-1', 1)" id="btn-plus-enfant-1">+</button>
+            <div class="item">
+                <h3>Bambini - Pâtes</h3>
+                <p>Pâtes au choix: tomate, pesto, ou nature</p>
+                <div class="price">12.90 CHF</div>
+                <div class="qty-control">
+                    <button onclick="updateQty('enfant-1', -1)" disabled id="btn-min-enfant-1">-</button>
+                    <span id="qty-enfant-1">0</span>
+                    <button onclick="updateQty('enfant-1', 1)" id="btn-plus-enfant-1">+</button>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
 
     <div class="cart">
@@ -593,47 +606,29 @@
 
     <script>
         var cart = {};
-        var prices = {
-            // Pizzas
-            'pizza-0': 16.90, 'pizza-1': 16.90, 'pizza-2': 17.90, 'pizza-3': 17.90,
-            'pizza-4': 18.90, 'pizza-5': 18.90, 'pizza-6': 19.90, 'pizza-7': 19.90,
-            'pizza-8': 20.90, 'pizza-9': 21.90, 'pizza-10': 21.90, 'pizza-11': 22.90,
-            'pizza-12': 22.90, 'pizza-13': 23.90, 'pizza-14': 23.90, 'pizza-15': 23.90,
-            // Pates
-            'pate-0': 15.90, 'pate-1': 13.90, 'pate-2': 15.90, 'pate-3': 16.90,
-            'pate-4': 16.90, 'pate-5': 17.90, 'pate-6': 16.90,
-            // Salades
-            'salade-0': 6.00, 'salade-1': 8.00, 'salade-2': 16.00, 'salade-3': 10.00,
-            'salade-4': 16.00, 'salade-5': 18.00, 'salade-6': 19.90, 'salade-7': 8.00,
-            'salade-8': 14.90,
-            // Autres
-            'autre-0': 18.00, 'autre-1': 25.00, 'autre-2': 25.00,
-            // Enfants
-            'enfant-0': 12.90, 'enfant-1': 12.90
-        };
-        var names = {
-            // Pizzas
-            'pizza-0': "Pizza Esposito's", 'pizza-1': "Pizza Sicilia", 'pizza-2': "Pizza Calabria",
-            'pizza-3': "Pizza Piemonte", 'pizza-4': "Pizza Puglia", 'pizza-5': "Pizza Abbruzzo",
-            'pizza-6': "Pizza Toscana", 'pizza-7': "Pizza Umbria", 'pizza-8': "Pizza Lazio",
-            'pizza-9': "Pizza Tutti al Mare!", 'pizza-10': "Pizza Emilia Romagna",
-            'pizza-11': "Pizza Lombardia", 'pizza-12': "Pizza Trentino",
-            'pizza-13': "Pizza Liguria", 'pizza-14': "Pizza Campania", 'pizza-15': "Pizza Tchie Nos's",
-            // Pates
-            'pate-0': "Pâtes Ail et pesto", 'pate-1': "Pâtes Sauce tomate",
-            'pate-2': "Pâtes Arrabiata", 'pate-3': "Pâtes Carbonara",
-            'pate-4': "Pâtes Bolognaise", 'pate-5': "Lasagnes au bœuf",
-            'pate-6': "Lasagnes aux légumes",
-            // Salades
-            'salade-0': "Salade verte", 'salade-1': "Salade mêlée", 'salade-2': "Grande mêlée",
-            'salade-3': "Petite Caprese", 'salade-4': "Grande Caprese", 'salade-5': "Chef verte",
-            'salade-6': "Chèvre verte", 'salade-7': "Légumes de saison (P)",
-            'salade-8': "Légumes de saison (G)",
-            // Autres
-            'autre-0': "Tranche panée de poulet", 'autre-1': "Roastbeef", 'autre-2': "Tartare de bœuf",
-            // Enfants
-            'enfant-0': "Bambini - Poulet pané", 'enfant-1': "Bambini - Pâtes"
-        };
+        var prices = {'pizza-0': 16.9, 'pizza-1': 16.9, 'pizza-2': 17.9, 'pizza-3': 17.9, 'pizza-4': 18.9, 'pizza-5': 18.9, 'pizza-6': 19.9, 'pizza-7': 19.9, 'pizza-8': 20.9, 'pizza-9': 21.9, 'pizza-10': 21.9, 'pizza-11': 22.9, 'pizza-12': 22.9, 'pizza-13': 23.9, 'pizza-14': 23.9, 'pizza-15': 23.9, 'pate-0': 15.9, 'pate-1': 13.9, 'pate-2': 15.9, 'pate-3': 16.9, 'pate-4': 16.9, 'pate-5': 17.9, 'pate-6': 16.9, 'salade-0': 6.0, 'salade-1': 8.0, 'salade-2': 16.0, 'salade-3': 10.0, 'salade-4': 16.0, 'salade-5': 18.0, 'salade-6': 19.9, 'salade-7': 8.0, 'salade-8': 14.9, 'autre-0': 18.0, 'autre-1': 25.0, 'autre-2': 25.0, 'enfant-0': 12.9, 'enfant-1': 12.9};
+        var names = {'pizza-0': "Pizza Esposito's", 'pizza-1': "Pizza Sicilia", 'pizza-2': "Pizza Calabria", 'pizza-3': "Pizza Piemonte", 'pizza-4': "Pizza Puglia", 'pizza-5': "Pizza Abbruzzo", 'pizza-6': "Pizza Toscana", 'pizza-7': "Pizza Umbria", 'pizza-8': "Pizza Lazio", 'pizza-9': "Pizza Tutti al Mare!", 'pizza-10': "Pizza Emilia Romagna", 'pizza-11': "Pizza Lombardia", 'pizza-12': "Pizza Trentino", 'pizza-13': "Pizza Liguria", 'pizza-14': "Pizza Campania", 'pizza-15': "Pizza Tchie Nos's", 'pate-0': "Pâtes Ail et pesto", 'pate-1': "Pâtes Sauce tomate", 'pate-2': "Pâtes Arrabiata", 'pate-3': "Pâtes Carbonara", 'pate-4': "Pâtes Bolognaise", 'pate-5': "Lasagnes au bœuf", 'pate-6': "Lasagnes aux légumes", 'salade-0': "Salade verte", 'salade-1': "Salade mêlée", 'salade-2': "Grande mêlée", 'salade-3': "Petite Caprese", 'salade-4': "Grande Caprese", 'salade-5': "Chef verte", 'salade-6': "Chèvre verte", 'salade-7': "Légumes de saison (P)", 'salade-8': "Légumes de saison (G)", 'autre-0': "Tranche panée de poulet", 'autre-1': "Roastbeef", 'autre-2': "Tartare de bœuf", 'enfant-0': "Bambini - Poulet pané", 'enfant-1': "Bambini - Pâtes"};
+
+        // Navigation sans rechargement
+        function showCategory(catId, btn) {
+            // Cacher toutes les catégories
+            var cats = document.getElementsByClassName('category');
+            for (var i = 0; i < cats.length; i++) {
+                cats[i].classList.remove('active');
+            }
+            // Montrer la catégorie sélectionnée
+            document.getElementById(catId).classList.add('active');
+
+            // Mettre à jour les boutons
+            var buttons = document.querySelectorAll('.nav button');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            btn.classList.add('active');
+
+            // Scroll en haut
+            window.scrollTo(0, 0);
+        }
 
         function updateQty(id, change) {
             if (!cart[id]) cart[id] = 0;
