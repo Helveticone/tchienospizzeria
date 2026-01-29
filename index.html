@@ -2,73 +2,280 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#C41E3A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tchie Nos">
+    <meta name="description" content="Commandez vos pizzas et plats italiens à Delémont">
+    <meta name="mobile-web-app-capable" content="yes">
+    
     <title>Tchie Nos Pizzeria</title>
+    
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f5f5f5; padding-bottom: 100px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { height: 100%; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
+            background: #f5f5f5; 
+            padding-bottom: 100px; 
+            min-height: 100%;
+            overscroll-behavior-y: none;
+        }
 
-        .header { background: linear-gradient(135deg, #C41E3A, #9B1B30); color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 100; border-bottom: 4px solid #FFD700; }
-        .header img { width: 120px; height: 120px; background: white; border-radius: 50%; margin-bottom: 10px; padding: 5px; border: 3px solid #FFD700; object-fit: cover; }
+        .header { 
+            background: linear-gradient(135deg, #C41E3A, #9B1B30); 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            border-bottom: 4px solid #FFD700; 
+        }
+        .header img { 
+            width: 120px; 
+            height: 120px; 
+            background: white; 
+            border-radius: 50%; 
+            margin-bottom: 10px; 
+            padding: 5px; 
+            border: 3px solid #FFD700; 
+            object-fit: cover; 
+        }
         .badges { margin-top: 10px; }
-        .badge { display: inline-block; background: #FFD700; color: #1E3A5F; padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: bold; margin: 2px; }
+        .badge { 
+            display: inline-block; 
+            background: #FFD700; 
+            color: #1E3A5F; 
+            padding: 5px 12px; 
+            border-radius: 15px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            margin: 2px; 
+        }
 
-        .nav { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: white; position: sticky; top: 220px; z-index: 99; box-shadow: 0 2px 10px rgba(0,0,0,0.1); -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .nav { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 10px; 
+            padding: 15px; 
+            background: white; 
+            position: sticky; 
+            top: 220px; 
+            z-index: 99; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            scrollbar-width: none; 
+        }
         .nav::-webkit-scrollbar { display: none; }
-        .nav button { flex-shrink: 0; padding: 12px 20px; border: 2px solid #C41E3A; background: white; color: #C41E3A; border-radius: 25px; font-weight: bold; font-size: 14px; cursor: pointer; transition: all 0.3s; }
-        .nav button:hover, .nav button.active { background: #C41E3A; color: white; }
+        .nav button { 
+            flex-shrink: 0; 
+            padding: 12px 20px; 
+            border: 2px solid #C41E3A; 
+            background: white; 
+            color: #C41E3A; 
+            border-radius: 25px; 
+            font-weight: bold; 
+            font-size: 14px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+        }
+        .nav button:hover, .nav button.active { 
+            background: #C41E3A; 
+            color: white; 
+        }
 
         .container { max-width: 800px; margin: 0 auto; padding: 20px; }
         .category { display: none; animation: fadeIn 0.3s; }
         .category.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
         h2 { color: #1E3A5F; margin: 20px 0 15px 0; padding-bottom: 10px; border-bottom: 3px solid #FFD700; }
 
-        .item { background: white; border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 4px solid #C41E3A; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .item { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 15px; 
+            margin-bottom: 12px; 
+            border-left: 4px solid #C41E3A; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
+        }
         .item h3 { color: #1E3A5F; margin-bottom: 5px; font-size: 16px; }
         .item p { color: #666; font-size: 13px; margin-bottom: 8px; }
         .item .price { color: #C41E3A; font-weight: bold; font-size: 18px; }
 
         .qty-control { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-        .qty-control button { width: 35px; height: 35px; border-radius: 50%; border: none; background: #C41E3A; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .qty-control button { 
+            width: 35px; 
+            height: 35px; 
+            border-radius: 50%; 
+            border: none; 
+            background: #C41E3A; 
+            color: white; 
+            font-size: 18px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
         .qty-control button:hover:not(:disabled) { background: #9B1B30; transform: scale(1.1); }
         .qty-control button:disabled { background: #ccc; cursor: not-allowed; }
         .qty-control span { font-weight: bold; min-width: 30px; text-align: center; font-size: 16px; }
 
-        .cart { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px 20px; border-top: 3px solid #FFD700; display: flex; justify-content: space-between; align-items: center; z-index: 1000; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
-        .cart button { background: #25D366; color: white; border: none; padding: 15px 25px; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px; transition: all 0.2s; }
+        .cart { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            background: white; 
+            padding: 15px 20px; 
+            border-top: 3px solid #FFD700; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            z-index: 1000; 
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); 
+        }
+        .cart button { 
+            background: #25D366; 
+            color: white; 
+            border: none; 
+            padding: 15px 25px; 
+            border-radius: 25px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px; 
+            transition: all 0.2s; 
+        }
         .cart button:hover:not(:disabled) { background: #128C7E; transform: scale(1.05); }
         .cart button:disabled { background: #ccc; cursor: not-allowed; }
 
-        #orderModal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 2000; align-items: flex-end; justify-content: center; }
+        #orderModal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background: rgba(0,0,0,0.6); 
+            z-index: 2000; 
+            align-items: flex-end; 
+            justify-content: center; 
+        }
         #orderModal.show { display: flex; }
-        .modal-content { background: white; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; border-radius: 20px 20px 0 0; padding: 25px; }
+        .modal-content { 
+            background: white; 
+            width: 100%; 
+            max-width: 500px; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+            border-radius: 20px 20px 0 0; 
+            padding: 25px; 
+        }
 
         .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #1E3A5F; font-size: 14px; }
-        input, textarea, select { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 15px; font-family: inherit; }
+        .form-group label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+            color: #1E3A5F; 
+            font-size: 14px; 
+        }
+        input, textarea, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 10px; 
+            font-size: 15px; 
+            font-family: inherit; 
+            -webkit-appearance: none;
+        }
         input:focus, textarea:focus, select:focus { outline: none; border-color: #C41E3A; }
 
         .radio-group { display: flex; gap: 15px; margin: 15px 0; }
-        .radio-option { flex: 1; padding: 15px; border: 2px solid #e0e0e0; border-radius: 12px; cursor: pointer; text-align: center; transition: all 0.2s; }
+        .radio-option { 
+            flex: 1; 
+            padding: 15px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            text-align: center; 
+            transition: all 0.2s; 
+        }
         .radio-option:hover { border-color: #C41E3A; }
-        .radio-option.selected { border-color: #C41E3A; background: rgba(196, 30, 58, 0.05); }
-        .radio-option label { display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: normal; }
+        .radio-option.selected { 
+            border-color: #C41E3A; 
+            background: rgba(196, 30, 58, 0.05); 
+        }
+        .radio-option label { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            font-weight: normal; 
+        }
         .radio-option input { width: auto; margin-right: 8px; cursor: pointer; }
 
         .datetime-row { display: flex; gap: 10px; }
         .datetime-row > div { flex: 1; }
 
-        .btn-primary { width: 100%; background: #C41E3A; color: white; border: none; padding: 16px; border-radius: 25px; font-size: 16px; font-weight: bold; margin-top: 10px; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { 
+            width: 100%; 
+            background: #C41E3A; 
+            color: white; 
+            border: none; 
+            padding: 16px; 
+            border-radius: 25px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            margin-top: 10px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
         .btn-primary:hover { background: #9B1B30; transform: scale(1.02); }
         .hidden { display: none !important; }
+        
+        .install-prompt {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1E3A5F;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100%); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        .install-prompt button {
+            background: #FFD700;
+            color: #1E3A5F;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
-<base target="_blank">
 </head>
 <body>
     <div class="header">
-        <img src="logo-tchie-nos.png" alt="Logo Tchie Nos Pizzeria">
+        <img src="icons/icon-192x192.png" alt="Logo Tchie Nos Pizzeria">
         <h1>Tchie Nos Pizzeria</h1>
         <p>Commandez en ligne • Paiement à la livraison</p>
         <div class="badges">
@@ -99,6 +306,11 @@
             <strong>Total: <span id="cart-total" style="color:#C41E3A;font-size:20px;">0.00</span> CHF</strong>
         </div>
         <button onclick="openOrder()" id="order-btn" disabled>📱 Commander</button>
+    </div>
+
+    <div id="installPrompt" class="install-prompt">
+        📲 Ajouter à l'écran d'accueil
+        <button onclick="installPWA()">Installer</button>
     </div>
 
     <div id="orderModal" onclick="if(event.target.id=='orderModal')closeOrder()">
@@ -152,7 +364,6 @@
     </div>
 
     <script>
-        // Tous les plats
         var menuData = {
             pizzas: [
                 {n: "Pizza Esposito's", d: "Tomate, ail, câpres, origan", p: 16.90},
@@ -204,8 +415,8 @@
         };
 
         var cart = {};
+        var deferredPrompt;
 
-        // Générer le HTML au chargement
         function init() {
             for (var cat in menuData) {
                 var html = '';
@@ -226,35 +437,56 @@
                 document.getElementById(cat).innerHTML = html;
             }
             initDate();
+            
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(function(reg) { console.log('SW registered'); })
+                    .catch(function(err) { console.log('SW error', err); });
+            }
+            
+            window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+                deferredPrompt = e;
+                document.getElementById('installPrompt').style.display = 'flex';
+            });
+            
+            window.addEventListener('appinstalled', function() {
+                document.getElementById('installPrompt').style.display = 'none';
+                deferredPrompt = null;
+            });
+        }
+        
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(choiceResult) {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('PWA installed');
+                    }
+                    document.getElementById('installPrompt').style.display = 'none';
+                    deferredPrompt = null;
+                });
+            }
         }
 
-        // Navigation
         function showCategory(catId, btn) {
             var cats = document.getElementsByClassName('category');
-            for (var i = 0; i < cats.length; i++) {
-                cats[i].classList.remove('active');
-            }
+            for (var i = 0; i < cats.length; i++) cats[i].classList.remove('active');
             document.getElementById(catId).classList.add('active');
-
             var buttons = document.querySelectorAll('.nav button');
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
+            for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
             btn.classList.add('active');
             window.scrollTo(0, 0);
         }
 
-        // Quantités
         function updateQty(id, change) {
             if (!cart[id]) cart[id] = 0;
             cart[id] += change;
             if (cart[id] < 0) cart[id] = 0;
             if (cart[id] > 10) cart[id] = 10;
-
             document.getElementById('qty-' + id).textContent = cart[id];
             document.getElementById('btn-min-' + id).disabled = (cart[id] <= 0);
             document.getElementById('btn-plus-' + id).disabled = (cart[id] >= 10);
-
             updateCartDisplay();
         }
 
@@ -263,9 +495,7 @@
             for (var id in cart) {
                 if (cart[id] > 0) {
                     var parts = id.split('-');
-                    var cat = parts[0];
-                    var idx = parseInt(parts[1]);
-                    total += menuData[cat][idx].p * cart[id];
+                    total += menuData[parts[0]][parseInt(parts[1])].p * cart[id];
                     count += cart[id];
                 }
             }
@@ -274,7 +504,6 @@
             document.getElementById('order-btn').disabled = (count === 0);
         }
 
-        // Mode livraison
         function selectMode(mode) {
             document.getElementById('mode-' + mode).checked = true;
             onModeChange();
@@ -282,13 +511,11 @@
 
         function onModeChange() {
             var isDelivery = document.getElementById('mode-delivery').checked;
-            var isPickup = document.getElementById('mode-pickup').checked;
             document.querySelectorAll('.radio-option')[0].classList.toggle('selected', isDelivery);
-            document.querySelectorAll('.radio-option')[1].classList.toggle('selected', isPickup);
+            document.querySelectorAll('.radio-option')[1].classList.toggle('selected', !isDelivery);
             document.getElementById('address-group').classList.toggle('hidden', !isDelivery);
         }
 
-        // Date et heure avec délai de 45 minutes minimum
         function initDate() {
             var today = new Date();
             var yyyy = today.getFullYear();
@@ -303,17 +530,11 @@
             var dateInput = document.getElementById('delivery-date').value;
             var timeSelect = document.getElementById('delivery-time');
             timeSelect.innerHTML = '<option value="">Choisir l\'heure</option>';
-
             if (!dateInput) return;
-
             var selectedDate = new Date(dateInput);
             var now = new Date();
             var isToday = selectedDate.toDateString() === now.toDateString();
-
-            // Horaires: 11h30-14h et 18h30-21h30
             var slots = [];
-
-            // Midi: 11h30 à 14h00
             for (var h = 11; h <= 14; h++) {
                 for (var m = 0; m < 60; m += 15) {
                     if (h === 11 && m < 30) continue;
@@ -321,8 +542,6 @@
                     slots.push({h: h, m: m});
                 }
             }
-
-            // Soir: 18h30 à 21h30
             for (var h = 18; h <= 21; h++) {
                 for (var m = 0; m < 60; m += 15) {
                     if (h === 18 && m < 30) continue;
@@ -330,8 +549,6 @@
                     slots.push({h: h, m: m});
                 }
             }
-
-            // Filtrer si aujourd'hui (min 45 min après l'heure actuelle)
             if (isToday) {
                 var minTime = new Date(now.getTime() + 45 * 60000);
                 slots = slots.filter(function(slot) {
@@ -340,8 +557,6 @@
                     return slotTime >= minTime;
                 });
             }
-
-            // Ajouter options
             for (var i = 0; i < slots.length; i++) {
                 var timeStr = String(slots[i].h).padStart(2, '0') + ':' + String(slots[i].m).padStart(2, '0');
                 var opt = document.createElement('option');
@@ -351,11 +566,8 @@
             }
         }
 
-        // Modal
         function openOrder() {
-            // Recalculer les heures disponibles au moment d'ouvrir le modal
             updateTimes();
-
             var list = document.getElementById('order-list');
             var html = '';
             var total = 0;
@@ -380,7 +592,6 @@
             document.getElementById('orderModal').classList.remove('show');
         }
 
-        // Envoi
         function sendOrder() {
             var name = document.getElementById('name').value.trim();
             var phone = document.getElementById('phone').value.trim();
@@ -420,7 +631,6 @@
             cart = {};
             document.querySelectorAll('.qty-control span').forEach(function(el) { el.textContent = '0'; });
             document.querySelectorAll('.qty-control button:first-child').forEach(function(el) { el.disabled = true; });
-            document.querySelectorAll('.qty-control button:last-child').forEach(function(el) { el.disabled = false; });
             updateCartDisplay();
             closeOrder();
             document.getElementById('name').value = '';
