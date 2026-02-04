@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-</head>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -15,11 +10,16 @@
     <meta name="description" content="Commandez vos pizzas et plats italiens à Delémont">
     <meta name="mobile-web-app-capable" content="yes">
     
+    <!-- Anti-cache pour le développement -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>Tchie Nos Pizzeria</title>
     
     <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
     <link rel="apple-touch-icon" href="icons/icon-512.png">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.json?v=2">
     
     <style>
         :root {
@@ -192,6 +192,10 @@
             z-index: 1000; 
             box-shadow: 0 -2px 10px rgba(30, 58, 95, 0.1); 
         }
+        .cart-info small { color: var(--navy-blue); }
+        .cart-info strong { color: var(--navy-blue); }
+        .cart-total { color: var(--primary-red); font-size: 20px; }
+        
         .cart button { 
             background: var(--whatsapp-green); 
             color: var(--white); 
@@ -337,6 +341,30 @@
             font-weight: bold;
             cursor: pointer;
         }
+        
+        /* Classes utilitaires pour remplacer les style inline */
+        .text-navy { color: var(--navy-blue); }
+        .text-red { color: var(--primary-red); }
+        .bg-white { background: var(--white); }
+        .order-list-container {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .order-total-row {
+            font-weight: bold;
+            color: var(--primary-red);
+            font-size: 18px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid var(--primary-red);
+            display: flex;
+            justify-content: space-between;
+        }
+        .horaires-text { color: var(--navy-blue); }
     </style>
 </head>
 <body>
@@ -367,9 +395,9 @@
     </div>
 
     <div class="cart">
-        <div>
-            <small id="cart-count" style="color: var(--navy-blue);">0 article</small><br>
-            <strong style="color: var(--navy-blue);">Total: <span id="cart-total" style="color:var(--primary-red);font-size:20px;">0.00</span> CHF</strong>
+        <div class="cart-info">
+            <small id="cart-count">0 article</small><br>
+            <strong>Total: <span id="cart-total" class="cart-total">0.00</span> CHF</strong>
         </div>
         <button onclick="openOrder()" id="order-btn" disabled>📱 Commander</button>
     </div>
@@ -382,7 +410,7 @@
     <div id="orderModal" onclick="if(event.target.id=='orderModal')closeOrder()">
         <div class="modal-content">
             <h2>📝 Votre commande</h2>
-            <div id="order-list" style="background:var(--white);padding:15px;border-radius:10px;margin:15px 0;max-height:200px;overflow-y:auto;"></div>
+            <div id="order-list" class="order-list-container"></div>
 
             <div class="form-group">
                 <label>Nom et prénom *</label>
@@ -417,7 +445,7 @@
                     <div><input type="date" id="delivery-date" onchange="updateTimes()"></div>
                     <div><select id="delivery-time"><option value="">Choisir l'heure</option></select></div>
                 </div>
-                <small style="color:var(--navy-blue);">Horaires: 11h30-14h et 18h30-21h30</small>
+                <small class="horaires-text">Horaires: 11h30-14h et 18h30-21h30</small>
             </div>
 
             <div class="form-group">
@@ -648,7 +676,7 @@
                     html += '<span>' + sub.toFixed(2) + ' CHF</span></div>';
                 }
             }
-            html += '<div style="font-weight:bold;color:var(--primary-red);font-size:18px;margin-top:10px;padding-top:10px;border-top:2px solid var(--primary-red);display:flex;justify-content:space-between;">';
+            html += '<div class="order-total-row">';
             html += '<span>TOTAL</span><span>' + total.toFixed(2) + ' CHF</span></div>';
             list.innerHTML = html;
             document.getElementById('orderModal').classList.add('show');
@@ -692,7 +720,7 @@
             if (notes) msg += '%0A%0A📝 *Commentaires:* ' + encodeURIComponent(notes);
             msg += '%0A%0A_Paiement à la livraison_';
 
-            window.open('https://wa.me/41779431480?text= ' + msg, '_blank');
+            window.open('https://wa.me/41779431480?text=  ' + msg, '_blank');
 
             cart = {};
             document.querySelectorAll('.qty-control span').forEach(function(el) { el.textContent = '0'; });
@@ -714,6 +742,4 @@
     </script>
 </body>
 </html>
-
-
 
