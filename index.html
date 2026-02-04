@@ -17,41 +17,57 @@
     <link rel="manifest" href="manifest.json">
     
     <style>
+        :root {
+            /* COULEURS OFFICIELLES TCHIE NOS - Brand Style Guide */
+            --primary-red: #C41E3A;        /* Rouge Cardinal - Principal */
+            --primary-dark: #9B1B30;       /* Rouge foncé (dégradé) */
+            --accent-gold: #FFD700;        /* Or/Jaune - Accents */
+            --navy-blue: #1E3A5F;          /* Bleu Marine - Texte */
+            --dark-navy: #0F2A44;          /* Bleu très foncé */
+            --cream: #F9F6E8;              /* Crème - Fond */
+            --light-cream: #F5F5DC;        /* Beige clair */
+            --white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --gray-text: #666666;
+            --whatsapp-green: #25D366;     /* Conservé pour WA */
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html { height: 100%; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; 
-            background: #f5f5f5; 
+            background: var(--cream); 
             padding-bottom: 100px; 
             min-height: 100%;
             overscroll-behavior-y: none;
+            color: var(--navy-blue);
         }
 
         .header { 
-            background: linear-gradient(135deg, #C41E3A, #9B1B30); 
-            color: white; 
+            background: linear-gradient(135deg, var(--primary-red), var(--primary-dark)); 
+            color: var(--white); 
             padding: 20px; 
             text-align: center; 
             position: sticky; 
             top: 0; 
             z-index: 100; 
-            border-bottom: 4px solid #FFD700; 
+            border-bottom: 4px solid var(--accent-gold); 
         }
         .header img { 
             width: 120px; 
             height: 120px; 
-            background: white; 
+            background: var(--white); 
             border-radius: 50%; 
             margin-bottom: 10px; 
             padding: 5px; 
-            border: 3px solid #FFD700; 
+            border: 3px solid var(--accent-gold); 
             object-fit: cover; 
         }
         .badges { margin-top: 10px; }
         .badge { 
             display: inline-block; 
-            background: #FFD700; 
-            color: #1E3A5F; 
+            background: var(--accent-gold); 
+            color: var(--navy-blue); 
             padding: 5px 12px; 
             border-radius: 15px; 
             font-size: 12px; 
@@ -64,20 +80,20 @@
             overflow-x: auto; 
             gap: 10px; 
             padding: 15px; 
-            background: white; 
+            background: var(--white); 
             position: sticky; 
             top: 220px; 
             z-index: 99; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            box-shadow: 0 2px 10px rgba(30, 58, 95, 0.1); 
             scrollbar-width: none; 
         }
         .nav::-webkit-scrollbar { display: none; }
         .nav button { 
             flex-shrink: 0; 
             padding: 12px 20px; 
-            border: 2px solid #C41E3A; 
-            background: white; 
-            color: #C41E3A; 
+            border: 2px solid var(--primary-red); 
+            background: var(--white); 
+            color: var(--primary-red); 
             border-radius: 25px; 
             font-weight: bold; 
             font-size: 14px; 
@@ -85,8 +101,8 @@
             transition: all 0.3s; 
         }
         .nav button:hover, .nav button.active { 
-            background: #C41E3A; 
-            color: white; 
+            background: var(--primary-red); 
+            color: var(--white); 
         }
 
         .container { max-width: 800px; margin: 0 auto; padding: 20px; }
@@ -97,19 +113,36 @@
             to { opacity: 1; transform: translateY(0); } 
         }
 
-        h2 { color: #1E3A5F; margin: 20px 0 15px 0; padding-bottom: 10px; border-bottom: 3px solid #FFD700; }
+        h2 { 
+            color: var(--navy-blue); 
+            margin: 20px 0 15px 0; 
+            padding-bottom: 10px; 
+            border-bottom: 3px solid var(--accent-gold); 
+        }
 
         .item { 
-            background: white; 
+            background: var(--white); 
             border-radius: 12px; 
             padding: 15px; 
             margin-bottom: 12px; 
-            border-left: 4px solid #C41E3A; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
+            border-left: 4px solid var(--primary-red); 
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08); 
         }
-        .item h3 { color: #1E3A5F; margin-bottom: 5px; font-size: 16px; }
-        .item p { color: #666; font-size: 13px; margin-bottom: 8px; }
-        .item .price { color: #C41E3A; font-weight: bold; font-size: 18px; }
+        .item h3 { 
+            color: var(--navy-blue); 
+            margin-bottom: 5px; 
+            font-size: 16px; 
+        }
+        .item p { 
+            color: var(--gray-text); 
+            font-size: 13px; 
+            margin-bottom: 8px; 
+        }
+        .item .price { 
+            color: var(--primary-red); 
+            font-weight: bold; 
+            font-size: 18px; 
+        }
 
         .qty-control { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
         .qty-control button { 
@@ -117,34 +150,46 @@
             height: 35px; 
             border-radius: 50%; 
             border: none; 
-            background: #C41E3A; 
-            color: white; 
+            background: var(--primary-red); 
+            color: var(--white); 
             font-size: 18px; 
             font-weight: bold; 
             cursor: pointer; 
             transition: all 0.2s; 
         }
-        .qty-control button:hover:not(:disabled) { background: #9B1B30; transform: scale(1.1); }
-        .qty-control button:disabled { background: #ccc; cursor: not-allowed; }
-        .qty-control span { font-weight: bold; min-width: 30px; text-align: center; font-size: 16px; }
+        .qty-control button:hover:not(:disabled) { 
+            background: var(--primary-dark); 
+            transform: scale(1.1); 
+        }
+        .qty-control button:disabled { 
+            background: #ccc; 
+            cursor: not-allowed; 
+        }
+        .qty-control span { 
+            font-weight: bold; 
+            min-width: 30px; 
+            text-align: center; 
+            font-size: 16px; 
+            color: var(--navy-blue);
+        }
 
         .cart { 
             position: fixed; 
             bottom: 0; 
             left: 0; 
             right: 0; 
-            background: white; 
+            background: var(--white); 
             padding: 15px 20px; 
-            border-top: 3px solid #FFD700; 
+            border-top: 3px solid var(--accent-gold); 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             z-index: 1000; 
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1); 
+            box-shadow: 0 -2px 10px rgba(30, 58, 95, 0.1); 
         }
         .cart button { 
-            background: #25D366; 
-            color: white; 
+            background: var(--whatsapp-green); 
+            color: var(--white); 
             border: none; 
             padding: 15px 25px; 
             border-radius: 25px; 
@@ -153,8 +198,14 @@
             font-size: 16px; 
             transition: all 0.2s; 
         }
-        .cart button:hover:not(:disabled) { background: #128C7E; transform: scale(1.05); }
-        .cart button:disabled { background: #ccc; cursor: not-allowed; }
+        .cart button:hover:not(:disabled) { 
+            background: #128C7E; 
+            transform: scale(1.05); 
+        }
+        .cart button:disabled { 
+            background: #ccc; 
+            cursor: not-allowed; 
+        }
 
         #orderModal { 
             display: none; 
@@ -163,14 +214,14 @@
             left: 0; 
             right: 0; 
             bottom: 0; 
-            background: rgba(0,0,0,0.6); 
+            background: rgba(15, 42, 68, 0.6); 
             z-index: 2000; 
             align-items: flex-end; 
             justify-content: center; 
         }
         #orderModal.show { display: flex; }
         .modal-content { 
-            background: white; 
+            background: var(--cream); 
             width: 100%; 
             max-width: 500px; 
             max-height: 90vh; 
@@ -184,7 +235,7 @@
             display: block; 
             margin-bottom: 5px; 
             font-weight: bold; 
-            color: #1E3A5F; 
+            color: var(--navy-blue); 
             font-size: 14px; 
         }
         input, textarea, select { 
@@ -195,8 +246,13 @@
             font-size: 15px; 
             font-family: inherit; 
             -webkit-appearance: none;
+            background: var(--white);
+            color: var(--navy-blue);
         }
-        input:focus, textarea:focus, select:focus { outline: none; border-color: #C41E3A; }
+        input:focus, textarea:focus, select:focus { 
+            outline: none; 
+            border-color: var(--primary-red); 
+        }
 
         .radio-group { display: flex; gap: 15px; margin: 15px 0; }
         .radio-option { 
@@ -207,10 +263,11 @@
             cursor: pointer; 
             text-align: center; 
             transition: all 0.2s; 
+            background: var(--white);
         }
-        .radio-option:hover { border-color: #C41E3A; }
+        .radio-option:hover { border-color: var(--primary-red); }
         .radio-option.selected { 
-            border-color: #C41E3A; 
+            border-color: var(--primary-red); 
             background: rgba(196, 30, 58, 0.05); 
         }
         .radio-option label { 
@@ -219,6 +276,7 @@
             justify-content: center; 
             cursor: pointer; 
             font-weight: normal; 
+            color: var(--navy-blue);
         }
         .radio-option input { width: auto; margin-right: 8px; cursor: pointer; }
 
@@ -227,8 +285,8 @@
 
         .btn-primary { 
             width: 100%; 
-            background: #C41E3A; 
-            color: white; 
+            background: var(--primary-red); 
+            color: var(--white); 
             border: none; 
             padding: 16px; 
             border-radius: 25px; 
@@ -238,7 +296,10 @@
             cursor: pointer; 
             transition: all 0.2s; 
         }
-        .btn-primary:hover { background: #9B1B30; transform: scale(1.02); }
+        .btn-primary:hover { 
+            background: var(--primary-dark); 
+            transform: scale(1.02); 
+        }
         .hidden { display: none !important; }
         
         .install-prompt {
@@ -246,11 +307,11 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1E3A5F;
-            color: white;
+            background: var(--navy-blue);
+            color: var(--white);
             padding: 12px 20px;
             border-radius: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(15, 42, 68, 0.3);
             z-index: 999;
             display: none;
             align-items: center;
@@ -263,8 +324,8 @@
             to { transform: translateX(-50%) translateY(0); opacity: 1; }
         }
         .install-prompt button {
-            background: #FFD700;
-            color: #1E3A5F;
+            background: var(--accent-gold);
+            color: var(--navy-blue);
             border: none;
             padding: 8px 16px;
             border-radius: 15px;
@@ -302,8 +363,8 @@
 
     <div class="cart">
         <div>
-            <small id="cart-count">0 article</small><br>
-            <strong>Total: <span id="cart-total" style="color:#C41E3A;font-size:20px;">0.00</span> CHF</strong>
+            <small id="cart-count" style="color: var(--navy-blue);">0 article</small><br>
+            <strong style="color: var(--navy-blue);">Total: <span id="cart-total" style="color:var(--primary-red);font-size:20px;">0.00</span> CHF</strong>
         </div>
         <button onclick="openOrder()" id="order-btn" disabled>📱 Commander</button>
     </div>
@@ -316,7 +377,7 @@
     <div id="orderModal" onclick="if(event.target.id=='orderModal')closeOrder()">
         <div class="modal-content">
             <h2>📝 Votre commande</h2>
-            <div id="order-list" style="background:#f5f5f5;padding:15px;border-radius:10px;margin:15px 0;max-height:200px;overflow-y:auto;"></div>
+            <div id="order-list" style="background:var(--white);padding:15px;border-radius:10px;margin:15px 0;max-height:200px;overflow-y:auto;"></div>
 
             <div class="form-group">
                 <label>Nom et prénom *</label>
@@ -351,7 +412,7 @@
                     <div><input type="date" id="delivery-date" onchange="updateTimes()"></div>
                     <div><select id="delivery-time"><option value="">Choisir l'heure</option></select></div>
                 </div>
-                <small style="color:#666;">Horaires: 11h30-14h et 18h30-21h30</small>
+                <small style="color:var(--navy-blue);">Horaires: 11h30-14h et 18h30-21h30</small>
             </div>
 
             <div class="form-group">
@@ -582,7 +643,7 @@
                     html += '<span>' + sub.toFixed(2) + ' CHF</span></div>';
                 }
             }
-            html += '<div style="font-weight:bold;color:#C41E3A;font-size:18px;margin-top:10px;padding-top:10px;border-top:2px solid #C41E3A;display:flex;justify-content:space-between;">';
+            html += '<div style="font-weight:bold;color:var(--primary-red);font-size:18px;margin-top:10px;padding-top:10px;border-top:2px solid var(--primary-red);display:flex;justify-content:space-between;">';
             html += '<span>TOTAL</span><span>' + total.toFixed(2) + ' CHF</span></div>';
             list.innerHTML = html;
             document.getElementById('orderModal').classList.add('show');
@@ -626,7 +687,7 @@
             if (notes) msg += '%0A%0A📝 *Commentaires:* ' + encodeURIComponent(notes);
             msg += '%0A%0A_Paiement à la livraison_';
 
-            window.open('https://wa.me/41779431480?text=' + msg, '_blank');
+            window.open('https://wa.me/41779431480?text= ' + msg, '_blank');
 
             cart = {};
             document.querySelectorAll('.qty-control span').forEach(function(el) { el.textContent = '0'; });
